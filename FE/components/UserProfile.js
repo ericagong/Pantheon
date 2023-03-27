@@ -1,5 +1,59 @@
-const UserProfile = () => {
-  return <>UserProfile</>;
+import { useCallback } from "react";
+import { Card, Avatar, Button } from "antd";
+import styled from "styled-components";
+import PropTypes from "prop-types";
+
+const DUMMY_USER = {
+  USERNAME: "Pantheon",
+  PROFILE: "PT",
+};
+
+const NAMES = {
+  ALERT: "alert",
+  FOLLOWINGS: "followings",
+  FOLLOWERS: "followers",
+};
+
+const LABELS = {
+  [NAMES.ALERT]: "알림",
+  [NAMES.FOLLOWINGS]: "팔로잉",
+  [NAMES.FOLLOWERS]: "팔로워",
+};
+
+const DATA = {
+  [NAMES.ALERT]: 1,
+  [NAMES.FOLLOWINGS]: 13,
+  [NAMES.FOLLOWERS]: 1000,
+};
+
+const UserProfile = ({ setIsLoggedIn }) => {
+  const getInfo = () => {
+    return Object.values(NAMES).map((name) => (
+      <div key={`info_${name}`}>
+        {LABELS[name]}
+        <br />
+        {DATA[name]}
+      </div>
+    ));
+  };
+
+  const onSignOut = useCallback(() => {
+    setIsLoggedIn(false);
+  }, []);
+
+  return (
+    <Card actions={getInfo()}>
+      <Card.Meta
+        avatar={<Avatar>{DUMMY_USER.PROFILE}</Avatar>}
+        title={DUMMY_USER.USERNAME}
+        description={<Button onClick={onSignOut}>로그아웃</Button>}
+      />
+    </Card>
+  );
+};
+
+UserProfile.propTypes = {
+  setIsLoggedIn: PropTypes.func.isRequired,
 };
 
 export default UserProfile;

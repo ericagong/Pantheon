@@ -36,14 +36,14 @@ const SignInForm = ({ setIsLoggedIn }) => {
     ));
   };
 
-  const onSumbit = useCallback(() => {
+  const onSignIn = useCallback(() => {
     // antd 에서는 e.preventDefault 기본 적용
     console.log(info);
     setIsLoggedIn(true);
   }, [info]);
 
   return (
-    <Form onFinish={onSumbit}>
+    <FormWrapper onFinish={onSignIn}>
       {getInputs()}
       <ButtonWrapper>
         <Button type="primary" htmlType="submit" loading={false}>
@@ -53,9 +53,13 @@ const SignInForm = ({ setIsLoggedIn }) => {
           <Button>회원가입</Button>
         </Link>
       </ButtonWrapper>
-    </Form>
+    </FormWrapper>
   );
 };
+
+const FormWrapper = styled(Form)`
+  padding: 10%;
+`;
 
 const FieldWrapper = styled.div`
   margin-top: 10px;
