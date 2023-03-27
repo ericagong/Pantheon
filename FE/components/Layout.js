@@ -1,9 +1,13 @@
+import { useState } from "react";
 import Link from "next/link";
-import PropTypes from "prop-types";
 import { Menu, Input, Row, Col } from "antd";
+import UserProfile from "./UserProfile";
+import SignInForm from "./SignInForm";
+import PropTypes from "prop-types";
+import styled from "styled-components";
 
 const Layout = ({ children }) => {
-  const { Search } = Input;
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const onSearch = (value) => console.log(value);
 
@@ -18,11 +22,10 @@ const Layout = ({ children }) => {
     },
     {
       label: (
-        <Search
+        <SearchInput
           placeholder="검색어를 입력하세요."
           onSearch={onSearch}
           enterButton
-          style={{ verticalAlign: "middle" }}
         />
       ),
       key: "searchBar",
@@ -34,33 +37,35 @@ const Layout = ({ children }) => {
   ];
 
   return (
-    <div>
-      <div>
-        <Menu items={items} mode="horizontal" />
-        <Row gutter={8}>
-          <Col xs={24} md={6}>
-            왼쪽 메뉴
-          </Col>
-          <Col xs={24} md={12}>
-            {children}
-          </Col>
-          <Col xs={24} md={6}>
-            <a
-              href="https://github.com/ericagong"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              Made by Pantheon
-            </a>
-          </Col>
-        </Row>
-      </div>
-    </div>
+    <>
+      <Menu items={items} mode="horizontal" />
+      <Row gutter={8}>
+        <Col xs={24} md={6}>
+          {isLoggedIn ? <UserProfile /> : <SignInForm />}
+        </Col>
+        <Col xs={24} md={12}>
+          {children}
+        </Col>
+        <Col xs={24} md={6}>
+          <a
+            href="https://github.com/ericagong"
+            target="_blank"
+            rel="noreferrer noopener" // 보안 위협 방어
+          >
+            Made by Pantheon
+          </a>
+        </Col>
+      </Row>
+    </>
   );
 };
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
 };
+
+const SearchInput = styled(Input.Search)`
+  vertical-align: middle;
+`;
 
 export default Layout;
