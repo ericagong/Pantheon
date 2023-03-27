@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { Form, Input, Button } from "antd";
 import Link from "next/link";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const NAMES = {
   ID: "id",
@@ -13,7 +14,7 @@ const LABELS = {
   [NAMES.PW]: "비밀번호",
 };
 
-const SignInForm = () => {
+const SignInForm = ({ setIsLoggedIn }) => {
   const [info, setInfo] = useState({
     [NAMES.ID]: "",
     [NAMES.PW]: "",
@@ -35,8 +36,14 @@ const SignInForm = () => {
     ));
   };
 
+  const onSumbit = useCallback(() => {
+    // antd 에서는 e.preventDefault 기본 적용
+    console.log(info);
+    setIsLoggedIn(true);
+  }, [info]);
+
   return (
-    <Form>
+    <Form onFinish={onSumbit}>
       {getInputs()}
       <ButtonWrapper>
         <Button type="primary" htmlType="submit" loading={false}>
@@ -57,5 +64,9 @@ const FieldWrapper = styled.div`
 const ButtonWrapper = styled.div`
   margin-top: 10px;
 `;
+
+SignInForm.propTypes = {
+  setIsLoggedIn: PropTypes.func.isRequired,
+};
 
 export default SignInForm;

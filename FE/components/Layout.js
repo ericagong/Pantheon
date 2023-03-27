@@ -41,7 +41,11 @@ const Layout = ({ children }) => {
       <Menu items={items} mode="horizontal" />
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          {isLoggedIn ? <UserProfile /> : <SignInForm />}
+          {isLoggedIn ? (
+            <UserProfile />
+          ) : (
+            <SignInForm setIsLoggedIn={setIsLoggedIn} />
+          )}
         </Col>
         <Col xs={24} md={12}>
           {children}
