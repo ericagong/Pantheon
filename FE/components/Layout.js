@@ -1,15 +1,20 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Menu, Input, Row, Col } from "antd";
 import UserProfile from "./UserProfile";
 import SignInForm from "./SignInForm";
 import PropTypes from "prop-types";
-import styled from "styled-components";
 
 const Layout = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const onSearch = (value) => console.log(value);
+
+  const { Search } = Input;
+
+  const InputStyle = useMemo(() => {
+    return { verticalAlign: "midddle" };
+  }, []);
 
   const items = [
     {
@@ -22,10 +27,11 @@ const Layout = ({ children }) => {
     },
     {
       label: (
-        <SearchInput
+        <Search
           placeholder="검색어를 입력하세요."
           onSearch={onSearch}
           enterButton
+          style={InputStyle}
         />
       ),
       key: "searchBar",
@@ -67,9 +73,5 @@ const Layout = ({ children }) => {
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
 };
-
-const SearchInput = styled(Input.Search)`
-  vertical-align: middle;
-`;
 
 export default Layout;
