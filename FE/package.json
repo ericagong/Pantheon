@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next",
+    "dev": "next -p 3000",
     "build": "next build"
   },
   "author": "Erica Gong",
@@ -19,6 +19,7 @@
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.5",
     "redux": "^4.2.1",
+    "redux-devtools-extension": "^2.13.9",
     "styled-components": "^5.3.9"
   },
   "devDependencies": {
