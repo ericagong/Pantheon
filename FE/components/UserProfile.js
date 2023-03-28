@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useCallback } from "react";
 import { Card, Avatar, Button } from "antd";
-import { signOutAction } from "../reducers";
+import { signOutAction } from "../reducers/user";
 
 const DUMMY_USER = {
   USERNAME: "Pantheon",

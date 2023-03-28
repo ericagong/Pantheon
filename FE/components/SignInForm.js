@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useState, useCallback } from "react";
-import { signInAction } from "../reducers";
+import { signInAction } from "../reducers/user";
 import { Form, Input, Button } from "antd";
 import Link from "next/link";
 import styled from "styled-components";
