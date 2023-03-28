@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useState, useCallback } from "react";
-import { Card, Button, Avatar, Popover } from "antd";
-import PropTypes from "prop-types";
+import { Card, Button, Avatar, Popover, List, Comment } from "antd";
+
 import {
   RetweetOutlined,
   HeartOutlined,
@@ -9,9 +9,10 @@ import {
   MessageOutlined,
   EllipsisOutlined,
 } from "@ant-design/icons";
-
-import PostCardContent from "./PostCardContent";
 import PostImages from "./PostImages";
+import PostCardContent from "./PostCardContent";
+import CommentForm from "./CommentForm";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const CardWrapper = styled.div`
@@ -75,7 +76,25 @@ const PostCard = ({ post }) => {
           description={<PostCardContent postData={post.content} />}
         />
       </Card>
-      {showComments && <>댓글부분</>}
+      {showComments && (
+        <>
+          <CommentForm post={post} />
+          <List
+            header={`${post.Comments.length}개의 댓글`}
+            itemLayout="horizontal"
+            dataSource={post.Comments}
+            renderItem={(item) => (
+              <li>
+                <Comment
+                  author={item.User.username}
+                  avatar={<Avatar>{item.User.username[0]}</Avatar>}
+                  content={item.content}
+                />
+              </li>
+            )}
+          />
+        </>
+      )}
     </CardWrapper>
   );
 };
