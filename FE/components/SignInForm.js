@@ -25,7 +25,6 @@ const SignInForm = ({ setIsLoggedIn }) => {
     setInfo((prev) => ({ ...prev, [name]: value }));
   }, []);
 
-  // THINK 리렌더링 발생하는지?
   const getInputs = () => {
     return Object.values(NAMES).map((name) => (
       <FieldWrapper key={`field_${name}`}>

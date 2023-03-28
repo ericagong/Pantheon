@@ -3,14 +3,21 @@ import { List, Button, Card } from "antd";
 import { StopOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
 
-// TODO style useMemo 통해 최적화
+const LIST_STYLE = {
+  style: { marginBottom: "20px" },
+  grid: { gutter: 4, xs: 2, md: 3 },
+  size: "small",
+};
+
+const ITEM_STYLE = {
+  style: { marginTop: "20px" },
+};
+
 const FollowList = ({ header, data }) => {
   return (
     <List
-      style={{ marginBottom: "20px" }}
-      grid={{ gutter: 4, xs: 2, md: 3 }}
-      size="small"
-      header={<div>{header}</div>}
+      {...LIST_STYLE}
+      header={header}
       loadMore={
         <div style={{ textAlign: "center", margin: "10px 0" }}>
           <Button>더 보기</Button>
@@ -19,7 +26,7 @@ const FollowList = ({ header, data }) => {
       bordered
       dataSource={data}
       renderItem={(item) => (
-        <List.Item style={{ marginTop: "20px" }}>
+        <List.Item {...ITEM_STYLE}>
           <Card actions={[<StopOutlined key="stop" />]}>
             <Card.Meta description={item.nickname} />
           </Card>

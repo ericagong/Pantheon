@@ -5,16 +5,16 @@ import UserProfile from "./UserProfile";
 import SignInForm from "./SignInForm";
 import PropTypes from "prop-types";
 
+const INPUT_STYLE = {
+  style: { verticalAlign: "middle" },
+};
+
 const Layout = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const onSearch = (value) => console.log(value);
 
   const { Search } = Input;
-
-  const InputStyle = useMemo(() => {
-    return { verticalAlign: "midddle" };
-  }, []);
 
   const items = [
     {
@@ -31,7 +31,7 @@ const Layout = ({ children }) => {
           placeholder="검색어를 입력하세요."
           onSearch={onSearch}
           enterButton
-          style={InputStyle}
+          {...INPUT_STYLE}
         />
       ),
       key: "searchBar",
