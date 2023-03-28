@@ -9,10 +9,13 @@ const initialState = {
       content: "첫번째 게시글 #해시태그 #판테온",
       Images: [
         {
-          src: "https://img.extmovie.com/files/attach/images/135/415/999/086/186803c4189401b59be70cb58847bfad.jpg",
+          src: "https://search.pstatic.net/common?quality=75&direct=true&src=https%3A%2F%2Fmovie-phinf.pstatic.net%2F20230130_41%2F1675041107446A8HAc_PNG%2Fmovie_image.jpg",
         },
         {
-          src: "https://img.extmovie.com/files/attach/images/135/415/999/086/ea26de7173a413094e53d0c9a5fb7845.jpg",
+          src: "https://search.pstatic.net/common?quality=75&direct=true&src=https%3A%2F%2Fmovie-phinf.pstatic.net%2F20230207_218%2F1675730219849H9NRL_PNG%2Fmovie_image.jpg",
+        },
+        {
+          src: "https://search.pstatic.net/common?quality=75&direct=true&src=https%3A%2F%2Fmovie-phinf.pstatic.net%2F20230207_295%2F1675730349897cskgL_PNG%2Fmovie_image.jpg",
         },
       ],
       Comments: [
