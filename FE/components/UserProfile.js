@@ -1,7 +1,7 @@
+import { useDispatch } from "react-redux";
 import { useCallback } from "react";
 import { Card, Avatar, Button } from "antd";
-import styled from "styled-components";
-import PropTypes from "prop-types";
+import { signOutAction } from "../reducers";
 
 const DUMMY_USER = {
   USERNAME: "Pantheon",
@@ -26,7 +26,9 @@ const DATA = {
   [NAMES.FOLLOWERS]: 1000,
 };
 
-const UserProfile = ({ setIsLoggedIn }) => {
+const UserProfile = () => {
+  const dispatch = useDispatch();
+
   const getInfo = () => {
     return Object.values(NAMES).map((name) => (
       <div key={`info_${name}`}>
@@ -38,7 +40,7 @@ const UserProfile = ({ setIsLoggedIn }) => {
   };
 
   const onSignOut = useCallback(() => {
-    setIsLoggedIn(false);
+    dispatch(signOutAction());
   }, []);
 
   return (
@@ -50,10 +52,6 @@ const UserProfile = ({ setIsLoggedIn }) => {
       />
     </Card>
   );
-};
-
-UserProfile.propTypes = {
-  setIsLoggedIn: PropTypes.func.isRequired,
 };
 
 export default UserProfile;

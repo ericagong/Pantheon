@@ -1,5 +1,5 @@
-import { useState, useMemo } from "react";
 import Link from "next/link";
+import { useSelector } from "react-redux";
 import { Menu, Input, Row, Col } from "antd";
 import UserProfile from "./UserProfile";
 import SignInForm from "./SignInForm";
@@ -10,7 +10,7 @@ const INPUT_STYLE = {
 };
 
 const Layout = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
   const onSearch = (value) => console.log(value);
 
@@ -47,11 +47,7 @@ const Layout = ({ children }) => {
       <Menu items={items} mode="horizontal" />
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          {isLoggedIn ? (
-            <UserProfile setIsLoggedIn={setIsLoggedIn} />
-          ) : (
-            <SignInForm setIsLoggedIn={setIsLoggedIn} />
-          )}
+          {isLoggedIn ? <UserProfile /> : <SignInForm />}
         </Col>
         <Col xs={24} md={12}>
           {children}

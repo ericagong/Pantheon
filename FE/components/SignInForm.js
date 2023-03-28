@@ -1,8 +1,9 @@
+import { useDispatch } from "react-redux";
 import { useState, useCallback } from "react";
+import { signInAction } from "../reducers";
 import { Form, Input, Button } from "antd";
 import Link from "next/link";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 
 const NAMES = {
   ID: "id",
@@ -14,7 +15,9 @@ const LABELS = {
   [NAMES.PW]: "비밀번호",
 };
 
-const SignInForm = ({ setIsLoggedIn }) => {
+const SignInForm = () => {
+  const dispatch = useDispatch();
+
   const [info, setInfo] = useState({
     [NAMES.ID]: "",
     [NAMES.PW]: "",
@@ -38,7 +41,7 @@ const SignInForm = ({ setIsLoggedIn }) => {
   const onSignIn = useCallback(() => {
     // antd 에서는 e.preventDefault 기본 적용
     console.log(info);
-    setIsLoggedIn(true);
+    dispatch(signInAction(info));
   }, [info]);
 
   return (
@@ -67,9 +70,5 @@ const FieldWrapper = styled.div`
 const ButtonWrapper = styled.div`
   margin-top: 10px;
 `;
-
-SignInForm.propTypes = {
-  setIsLoggedIn: PropTypes.func.isRequired,
-};
 
 export default SignInForm;
