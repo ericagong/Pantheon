@@ -40,7 +40,7 @@ const initialState = {
 const DUMMY_POST = {
   User: {
     id: 1,
-    nickname: "Pantheon",
+    username: "Pantheon",
   },
   content: "더미데이터",
   Images: [],
