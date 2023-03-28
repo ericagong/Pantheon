@@ -38,28 +38,30 @@ const initialState = {
 };
 
 const DUMMY_POST = {
-  id: 2,
-  content: "더미데이터",
   User: {
     id: 1,
     nickname: "Pantheon",
   },
+  content: "더미데이터",
   Images: [],
   Comments: [],
 };
 
 const ADD_POST = "ADD_POST";
 
-const addPostAction = () => ({
+const addPostAction = {
   type: ADD_POST,
-});
+};
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_POST:
       return {
         ...state,
-        mainPosts: [DUMMY_POST, state.mainPosts],
+        mainPosts: [
+          { ...DUMMY_POST, id: state.mainPosts.length + 1 },
+          ...state.mainPosts,
+        ],
         postAdded: true,
       };
     default:
