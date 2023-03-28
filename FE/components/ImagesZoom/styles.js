@@ -5,7 +5,8 @@ export const Global = createGlobalStyle`
   .slick-slide {
     display: inline-block;
   }
-  .ant-card-cover {
+  /* antd 최신 버전에 transform 속성이 들어가 있어 내부에 position: fixed 속성이 동작하는 브라우저 버그 해제*/
+	.ant-card-cover {
     transform: none !important;
   }
 `;

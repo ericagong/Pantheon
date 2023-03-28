@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import { useState, useCallback } from "react";
 import { Card, Button, Avatar, Popover, List, Comment } from "antd";
-
 import {
   RetweetOutlined,
   HeartOutlined,
@@ -14,10 +13,6 @@ import PostCardContent from "./PostCardContent";
 import CommentForm from "./CommentForm";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-
-const CardWrapper = styled.div`
-  margin-bottom: 20px;
-`;
 
 const PostCard = ({ post }) => {
   const id = useSelector((state) => state.user.me?.id);
@@ -98,6 +93,10 @@ const PostCard = ({ post }) => {
     </CardWrapper>
   );
 };
+
+const CardWrapper = styled.div`
+  margin-bottom: 20px;
+`;
 
 PostCard.propTypes = {
   post: PropTypes.shape({
