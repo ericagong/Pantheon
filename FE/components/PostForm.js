@@ -13,7 +13,7 @@ const PostForm = () => {
 
   const onSubmit = useCallback(() => {
     dispatch(createPostAction(text));
-    // 서버쪽 에러에 의한 처리 불가
+    // TODO 서버쪽 에러에 의한 처리 불가
     setText("");
   }, [text]);
 
