@@ -1,4 +1,12 @@
+import * as ACTIONS from "./actions";
+
 const initialState = {
+  createPostLoading: false, // 비동기 처리 진행 중
+  createPostDone: false,
+  createPostError: null,
+  createCommentLoading: false, // 비동기 처리 진행 중
+  createCommentDone: false,
+  createCommentError: null,
   mainPosts: [
     {
       id: 1,
@@ -37,40 +45,59 @@ const initialState = {
     },
   ], // 전체 포스트 목록
   imagePaths: [], // 이미지 업로드 시 경로들 저장
-  postAdded: false, // 게시글 추가 완료 시 변경
 };
 
-const DUMMY_POST = {
-  User: {
-    id: 1,
-    username: "Pantheon",
-  },
-  content: "더미데이터",
-  Images: [],
-  Comments: [],
-};
-
-const ADD_POST = "ADD_POST";
-
-const addPostAction = {
-  type: ADD_POST,
+export const createPostAction = {
+  type: ACTIONS.CREATE_POST_REQUEST,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_POST:
+    case ACTIONS.CREATE_POST_REQUEST:
       return {
         ...state,
+        createPostLoading: true,
+        createPostDone: false,
+        createPostError: null,
+      };
+    case ACTIONS.CREATE_POST_SUCCESS:
+      return {
+        ...state,
+        createPostLoading: false,
+        createPostDone: true,
         mainPosts: [
-          { ...DUMMY_POST, id: state.mainPosts.length + 1 },
+          { ...action.data, id: state.mainPosts.length + 1 },
           ...state.mainPosts,
         ],
-        postAdded: true,
+      };
+    case ACTIONS.CREATE_POST_FAILURE:
+      return {
+        ...state,
+        createPostLoading: false,
+        createPostError: action.error,
+      };
+    case ACTIONS.CREATE_COMMENT_REQUEST:
+      return {
+        ...state,
+        createCommentLoading: true,
+        createCommentDone: false,
+        createCommentError: null,
+      };
+    case ACTIONS.CREATE_COMMENT_SUCCESS:
+      return {
+        ...state,
+        createCommentLoading: false,
+        createCommentDone: true,
+      };
+    case ACTIONS.CREATE_COMMENT_FAILURE:
+      return {
+        ...state,
+        createCommentLoading: false,
+        createCommentError: action.error,
       };
     default:
       return { ...state };
   }
 };
 
-export { addPostAction };
 export default reducer;
