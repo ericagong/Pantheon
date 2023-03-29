@@ -1,7 +1,9 @@
-import { createWrapper } from "next-redux-wrapper";
+import createSagaMiddleware from "redux-saga";
 import { createStore, compose, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import reducer from "../reducers/index";
+import rootSaga from "../sagas";
+import { createWrapper } from "next-redux-wrapper";
 
 // custom logger 미들웨어
 const loggerMiddleware =
@@ -12,8 +14,10 @@ const loggerMiddleware =
     return next(action);
   };
 
+const sagaMiddleWare = createSagaMiddleware();
+
 const configureStore = () => {
-  const middlewares = [loggerMiddleware];
+  const middlewares = [loggerMiddleware, sagaMiddleWare];
 
   // 개발 시만 devTool 연결
   const enhancer =
@@ -22,6 +26,8 @@ const configureStore = () => {
       : composeWithDevTools(applyMiddleware(...middlewares));
 
   const store = createStore(reducer, enhancer);
+
+  store.sagaTask = sagaMiddleWare.run(rootSaga);
 
   return store;
 };
