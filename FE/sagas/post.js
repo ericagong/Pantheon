@@ -64,7 +64,7 @@ export function* watchCreatePost() {
 }
 
 export function* watchCreateComment() {
-  yield takeLatest(ACTIONS.CREATE_COMMNET_REQUEST, createComment);
+  yield takeLatest(ACTIONS.CREATE_COMMENT_REQUEST, createComment);
 }
 
 // saga
