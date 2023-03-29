@@ -3,11 +3,6 @@ import { useCallback } from "react";
 import { Card, Avatar, Button } from "antd";
 import { signOutRequestAction } from "../reducers/user";
 
-const DUMMY_USER = {
-  USERNAME: "Pantheon",
-  PROFILE: "PT",
-};
-
 const NAMES = {
   ALERT: "alert",
   FOLLOWINGS: "followings",
@@ -20,22 +15,25 @@ const LABELS = {
   [NAMES.FOLLOWERS]: "팔로워",
 };
 
-const DATA = {
-  [NAMES.ALERT]: 1,
-  [NAMES.FOLLOWINGS]: 13,
-  [NAMES.FOLLOWERS]: 1000,
-};
-
 const UserProfile = () => {
   const dispatch = useDispatch();
-  const { me, isLoading } = useSelector((state) => state.user);
+  const { me, signOutLoading } = useSelector((state) => state.user);
+
+  const data = useMemo(
+    () => ({
+      [NAMES.ALERT]: 1,
+      [NAMES.FOLLOWINGS]: me.Followings.length,
+      [NAMES.FOLLOWERS]: me.Followers.length,
+    }),
+    []
+  );
 
   const getInfo = () => {
     return Object.values(NAMES).map((name) => (
       <div key={`info_${name}`}>
         {LABELS[name]}
         <br />
-        {DATA[name]}
+        {data[name]}
       </div>
     ));
   };
@@ -50,7 +48,7 @@ const UserProfile = () => {
         avatar={<Avatar>{me.username[0]}</Avatar>}
         title={me.username}
         description={
-          <Button onClick={onSignOut} loading={isLoading}>
+          <Button onClick={onSignOut} loading={signOutLoading}>
             로그아웃
           </Button>
         }

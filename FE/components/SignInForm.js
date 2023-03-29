@@ -6,21 +6,21 @@ import Link from "next/link";
 import styled from "styled-components";
 
 const NAMES = {
-  ID: "id",
+  EMAIL: "email",
   PW: "password",
 };
 
 const LABELS = {
-  [NAMES.ID]: "아이디",
+  [NAMES.EMAIL]: "이메일",
   [NAMES.PW]: "비밀번호",
 };
 
 const SignInForm = () => {
   const dispatch = useDispatch();
-  const { isLoading } = useSelector((state) => state.user);
+  const { signInLoading } = useSelector((state) => state.user);
 
   const [info, setInfo] = useState({
-    [NAMES.ID]: "",
+    [NAMES.EMAIL]: "",
     [NAMES.PW]: "",
   });
 
@@ -49,7 +49,7 @@ const SignInForm = () => {
     <FormWrapper onFinish={onSignIn}>
       {getInputs()}
       <ButtonWrapper>
-        <Button type="primary" htmlType="submit" loading={isLoading}>
+        <Button type="primary" htmlType="submit" loading={signInLoading}>
           로그인
         </Button>
         <Link href="/signUp">

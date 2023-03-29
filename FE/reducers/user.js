@@ -11,7 +11,6 @@ const initialState = {
   signOutDone: false,
   signOutError: null,
 
-  isSignedIn: false,
   me: null,
   signUpData: {},
   signInData: {},
