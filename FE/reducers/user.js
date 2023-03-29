@@ -1,6 +1,9 @@
 import * as ACTIONS from "./actions";
 
 const initialState = {
+  signUpLoading: false, // 비동기 요청 진행 중
+  signUpDone: false,
+  signUpError: null,
   signInLoading: false, // 비동기 요청 진행 중
   signInDone: false,
   signInError: null,
@@ -15,6 +18,13 @@ const initialState = {
 };
 
 // actionCreators
+export const signUpRequestAction = (data) => {
+  return {
+    type: ACTIONS.SIGN_UP_REQUEST,
+    data,
+  };
+};
+
 export const signInRequestAction = (data) => {
   return {
     type: ACTIONS.SIGN_IN_REQUEST,
@@ -39,6 +49,26 @@ const createDummyUser = (data) => ({
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case ACTIONS.SIGN_UP_REQUEST:
+      return {
+        ...state,
+        signUpLoading: true,
+        signUpDone: false,
+        signUpError: null, // 로딩 시 에러 삭제 필수
+      };
+    case ACTIONS.SIGN_UP_SUCCESS:
+      return {
+        ...state,
+        signUpLoading: false,
+        signUpDone: true,
+        // TODO 추가 회원가입 정보 처리
+      };
+    case ACTIONS.SIGN_UP_FAILURE:
+      return {
+        ...state,
+        signUpLoading: false,
+        signUpError: action.error,
+      };
     case ACTIONS.SIGN_IN_REQUEST:
       return {
         ...state,
