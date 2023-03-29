@@ -1,6 +1,6 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState, useCallback } from "react";
-import { signInAction } from "../reducers/user";
+import { signInRequestAction } from "../reducers/user";
 import { Form, Input, Button } from "antd";
 import Link from "next/link";
 import styled from "styled-components";
@@ -17,6 +17,7 @@ const LABELS = {
 
 const SignInForm = () => {
   const dispatch = useDispatch();
+  const { isLoading } = useSelector((state) => state.user);
 
   const [info, setInfo] = useState({
     [NAMES.ID]: "",
@@ -39,16 +40,16 @@ const SignInForm = () => {
   };
 
   const onSignIn = useCallback(() => {
-    // antd 에서는 e.preventDefault 기본 적용
+    // antd는 e.preventDefault 기본 적용
     console.log(info);
-    dispatch(signInAction(info));
+    dispatch(signInRequestAction(info));
   }, [info]);
 
   return (
     <FormWrapper onFinish={onSignIn}>
       {getInputs()}
       <ButtonWrapper>
-        <Button type="primary" htmlType="submit" loading={false}>
+        <Button type="primary" htmlType="submit" loading={isLoading}>
           로그인
         </Button>
         <Link href="/signUp">

@@ -1,7 +1,7 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
 import { Card, Avatar, Button } from "antd";
-import { signOutAction } from "../reducers/user";
+import { signOutRequestAction } from "../reducers/user";
 
 const DUMMY_USER = {
   USERNAME: "Pantheon",
@@ -28,6 +28,7 @@ const DATA = {
 
 const UserProfile = () => {
   const dispatch = useDispatch();
+  const { me, isLoading } = useSelector((state) => state.user);
 
   const getInfo = () => {
     return Object.values(NAMES).map((name) => (
@@ -40,15 +41,19 @@ const UserProfile = () => {
   };
 
   const onSignOut = useCallback(() => {
-    dispatch(signOutAction());
+    dispatch(signOutRequestAction());
   }, []);
 
   return (
     <Card actions={getInfo()}>
       <Card.Meta
-        avatar={<Avatar>{DUMMY_USER.PROFILE}</Avatar>}
-        title={DUMMY_USER.USERNAME}
-        description={<Button onClick={onSignOut}>로그아웃</Button>}
+        avatar={<Avatar>{me.username[0]}</Avatar>}
+        title={me.username}
+        description={
+          <Button onClick={onSignOut} loading={isLoading}>
+            로그아웃
+          </Button>
+        }
       />
     </Card>
   );

@@ -1,13 +1,13 @@
 import axios from "axios";
-import { put, delay, call, takeLatest, all } from "redux-saga/effects";
+import { put, delay, call, fork, takeLatest, all } from "redux-saga/effects";
 
-const SIGN_IN_REQUEST = "SIGN_IN_REQUEST";
-const SIGN_IN_SUCCESS = "SIGN_IN_SUCCESS";
-const SIGN_IN_FAILURE = "SIGN_IN_FAILURE";
+export const SIGN_IN_REQUEST = "SIGN_IN_REQUEST";
+export const SIGN_IN_SUCCESS = "SIGN_IN_SUCCESS";
+export const SIGN_IN_FAILURE = "SIGN_IN_FAILURE";
 
-const SIGN_OUT_REQUEST = "SIGN_OUT_REQUEST";
-const SIGN_OUT_SUCCESS = "SIGN_OUT_SUCCESS";
-const SIGN_OUT_FAILURE = "SIGN_OUT_FAILURE";
+export const SIGN_OUT_REQUEST = "SIGN_OUT_REQUEST";
+export const SIGN_OUT_SUCCESS = "SIGN_OUT_SUCCESS";
+export const SIGN_OUT_FAILURE = "SIGN_OUT_FAILURE";
 
 // API 호출만 제너레이터 함수 아님
 function signInAPI(data, a, b, c) {
@@ -28,7 +28,7 @@ export function* signIn(action) {
     // const result = yield call(signInAPI, action.data, "a", "b", "c");
     yield put({
       type: SIGN_IN_SUCCESS,
-      // data: result.data,
+      data: action.data,
     });
   } catch (err) {
     yield put({

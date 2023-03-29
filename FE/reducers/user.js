@@ -1,46 +1,73 @@
+import {
+  SIGN_IN_FAILURE,
+  SIGN_IN_REQUEST,
+  SIGN_IN_SUCCESS,
+  SIGN_OUT_FAILURE,
+  SIGN_OUT_REQUEST,
+  SIGN_OUT_SUCCESS,
+} from "../sagas/user";
+
 const initialState = {
+  isLoading: false, // 비동기 요청 진행 중
   isSignedIn: false,
   me: null,
   signUpData: {},
   signInData: {},
 };
 
-// actions
-const SIGN_IN = "SIGN_IN";
-const SIGN_OUT = "SIGN_OUT";
-
 // actionCreators
-const signInAction = (data) => {
+export const signInRequestAction = (data) => {
   return {
-    type: SIGN_IN,
+    type: SIGN_IN_REQUEST,
     data,
   };
 };
 
-const signOutAction = () => {
+export const signOutRequestAction = (data) => {
   return {
-    type: SIGN_OUT,
+    type: SIGN_OUT_REQUEST,
   };
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case SIGN_IN:
+    case SIGN_IN_REQUEST:
       return {
         ...state,
-        isSignedIn: true,
-        me: action.data,
+        isLoading: true,
       };
-    case SIGN_OUT:
+    case SIGN_IN_SUCCESS:
       return {
         ...state,
+        isLoading: false,
+        isSignedIn: true,
+        me: { ...action.data, username: "Erica" },
+      };
+    case SIGN_IN_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case SIGN_OUT_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case SIGN_OUT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
         isSignedIn: false,
         me: null,
+      };
+    case SIGN_OUT_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
       };
     default:
       return { ...state };
   }
 };
 
-export { signInAction, signOutAction };
 export default reducer;
