@@ -1,20 +1,21 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useRef, useCallback } from "react";
-import { addPostAction } from "../reducers/post";
+import { createPostAction } from "../reducers/post";
 import { Form, Input, Button } from "antd";
 
 const PostForm = () => {
-  const { imagePaths } = useSelector((state) => state.post);
   const dispatch = useDispatch();
 
+  const { imagePaths } = useSelector((state) => state.post);
   const [text, setText] = useState("");
 
   const imageInputRef = useRef();
 
   const onSubmit = useCallback(() => {
-    dispatch(addPostAction);
+    dispatch(createPostAction(text));
+    // 서버쪽 에러에 의한 처리 불가
     setText("");
-  }, []);
+  }, [text]);
 
   const onChangeText = useCallback((e) => {
     setText(e.target.value);

@@ -47,9 +47,10 @@ const initialState = {
   imagePaths: [], // 이미지 업로드 시 경로들 저장
 };
 
-export const createPostAction = {
+export const createPostAction = (data) => ({
   type: ACTIONS.CREATE_POST_REQUEST,
-};
+  data,
+});
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
