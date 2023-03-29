@@ -6,7 +6,7 @@ import { Form, Input, Checkbox, Button } from "antd";
 import styled from "styled-components";
 
 const SignUp = () => {
-  const [id, onChangeId] = useInput("");
+  const [email, onChangeEmail] = useInput("");
   const [username, onChangeUsername] = useInput("");
   const [password, onChangePassword] = useInput("");
 
@@ -34,7 +34,7 @@ const SignUp = () => {
     if (!term) {
       return setTermError(true);
     }
-    console.log(id, username, password);
+    console.log(email, username, password);
   }, [password, passwordCheck, term]);
 
   return (
@@ -45,9 +45,14 @@ const SignUp = () => {
       <Layout>
         <Form onFinish={onSignUp}>
           <>
-            <label htmlFor="id">아이디</label>
+            <label htmlFor="email">아이디</label>
             <br />
-            <Input name="id" value={id} required onChange={onChangeId} />
+            <Input
+              name="email"
+              value={email}
+              required
+              onChange={onChangeEmail}
+            />
           </>
           <>
             <label htmlFor="username">닉네임</label>
