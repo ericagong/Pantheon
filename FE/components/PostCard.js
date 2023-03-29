@@ -19,6 +19,9 @@ const PostCard = ({ post }) => {
   const dispatch = useDispatch();
 
   const id = useSelector((state) => state.user.me?.id);
+  const deletePostLoading = useSelector(
+    (state) => state.post.deletePostLoading
+  );
 
   const [liked, setLiked] = useState(false);
   const [showComments, setShowComments] = useState(false);
@@ -60,7 +63,11 @@ const PostCard = ({ post }) => {
                 {id && post.User.id === id ? (
                   <>
                     <Button>수정</Button>
-                    <Button type="danger" onClick={onDeletePost}>
+                    <Button
+                      type="danger"
+                      onClick={onDeletePost}
+                      loading={deletePostLoading}
+                    >
                       삭제
                     </Button>
                   </>
