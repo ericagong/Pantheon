@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import * as ACTIONS from "../reducers/actions";
 import { Form, Input, Button } from "antd";
 import PropTypes from "prop-types";
@@ -8,6 +8,7 @@ const CommentForm = ({ post }) => {
   const dispatch = useDispatch();
 
   const id = useSelector((state) => state.user.me?.id);
+  const createCommentDone = useSelector((state) => state.post);
   const [comment, setComment] = useState("");
 
   const onSubmit = useCallback(() => {
@@ -19,8 +20,14 @@ const CommentForm = ({ post }) => {
       type: ACTIONS.CREATE_COMMENT_REQUEST,
       data: { content: comment, postId: post.id, userId: id },
     });
-    setComment("");
   }, [comment, id]);
+
+  // 서버측에서 에러가 나지 않고 성공적으로 처리된 경우만 작성했던 본문 비우기
+  useEffect(() => {
+    if (createCommentDone) {
+      setComment("");
+    }
+  }, [createCommentDone]);
 
   const onChangeComment = useCallback((e) => {
     setComment(e.target.value);

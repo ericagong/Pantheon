@@ -1,20 +1,25 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { createPostAction } from "../reducers/post";
 import { Form, Input, Button } from "antd";
 
 const PostForm = () => {
   const dispatch = useDispatch();
 
-  const { imagePaths } = useSelector((state) => state.post);
+  const { imagePaths, createPostDone } = useSelector((state) => state.post);
   const [text, setText] = useState("");
 
   const imageInputRef = useRef();
 
+  // 서버측에서 에러가 나지 않고 성공적으로 처리된 경우만 작성했던 본문 비우기
+  useEffect(() => {
+    if (createPostDone) {
+      setText("");
+    }
+  }, [createPostDone]);
+
   const onSubmit = useCallback(() => {
     dispatch(createPostAction(text));
-    // TODO 서버쪽 에러에 의한 처리 불가
-    setText("");
   }, [text]);
 
   const onChangeText = useCallback((e) => {
