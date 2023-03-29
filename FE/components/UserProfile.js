@@ -4,13 +4,13 @@ import { Card, Avatar, Button } from "antd";
 import { signOutRequestAction } from "../reducers/user";
 
 const NAMES = {
-  ALERT: "alert",
+  POSTS: "posts",
   FOLLOWINGS: "followings",
   FOLLOWERS: "followers",
 };
 
 const LABELS = {
-  [NAMES.ALERT]: "알림",
+  [NAMES.POSTS]: "게시글",
   [NAMES.FOLLOWINGS]: "팔로잉",
   [NAMES.FOLLOWERS]: "팔로워",
 };
@@ -21,11 +21,11 @@ const UserProfile = () => {
 
   const data = useMemo(
     () => ({
-      [NAMES.ALERT]: 1,
+      [NAMES.POSTS]: me.Posts.length,
       [NAMES.FOLLOWINGS]: me.Followings.length,
       [NAMES.FOLLOWERS]: me.Followers.length,
     }),
-    []
+    [me]
   );
 
   const getInfo = () => {

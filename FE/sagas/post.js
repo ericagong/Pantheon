@@ -33,9 +33,16 @@ export function* createPost(action) {
   try {
     // const response = yield call(createPostAPI, action.data)
     yield delay(1000);
+    const dummyPost = createDummyPost(action.data);
+    // 신규 post 생성
     yield put({
       type: ACTIONS.CREATE_POST_SUCCESS,
-      data: createDummyPost(action.data),
+      data: dummyPost,
+    });
+    // 생성 post를 나의 post 목록에 추가
+    yield put({
+      type: ACTIONS.ADD_POST_TO_ME,
+      data: dummyPost.id,
     });
   } catch (err) {
     yield put({

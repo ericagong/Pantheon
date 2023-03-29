@@ -1,3 +1,4 @@
+import shortId from "shortid";
 import * as ACTIONS from "./actions";
 
 const initialState = {
@@ -12,7 +13,7 @@ const initialState = {
       id: 1,
       User: {
         id: 1,
-        username: "erica",
+        username: "Erica",
       },
       content: "첫번째 게시글 #해시태그 #판테온",
       Images: [
@@ -29,14 +30,14 @@ const initialState = {
       Comments: [
         {
           User: {
-            id: 2,
+            id: shortId.generate(),
             username: "Rica",
           },
           content: "얼른 보고 싶어요!",
         },
         {
           User: {
-            id: 3,
+            id: shortId.generate(),
             username: "Theon",
           },
           content: "내일 보러가야지!!",

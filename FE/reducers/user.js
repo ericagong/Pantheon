@@ -1,3 +1,4 @@
+import shortId from "shortid";
 import * as ACTIONS from "./actions";
 
 const initialState = {
@@ -41,9 +42,35 @@ const createDummyUser = (data) => ({
   ...data,
   id: 1,
   username: "Erica",
-  Posts: [],
-  Followings: [],
-  Followers: [],
+  Posts: [{ id: 1 }],
+  Followings: [
+    {
+      username: "HY",
+      id: shortId.generate(),
+    },
+    {
+      username: "JW",
+      id: shortId.generate(),
+    },
+    {
+      username: "YS",
+      id: shortId.generate(),
+    },
+  ],
+  Followers: [
+    {
+      username: "HYBOT",
+      id: shortId.generate(),
+    },
+    {
+      username: "JWBOT",
+      id: shortId.generate(),
+    },
+    {
+      username: "YSBOT",
+      id: shortId.generate(),
+    },
+  ],
 });
 
 const reducer = (state = initialState, action) => {
@@ -109,6 +136,14 @@ const reducer = (state = initialState, action) => {
         ...state,
         signOutLoading: false,
         signOutError: action.error,
+      };
+    case ACTIONS.ADD_POST_TO_ME:
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          Posts: [{ id: action.data }, ...state.me.Posts],
+        },
       };
     default:
       return { ...state };
