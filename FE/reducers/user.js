@@ -1,14 +1,13 @@
-import {
-  SIGN_IN_FAILURE,
-  SIGN_IN_REQUEST,
-  SIGN_IN_SUCCESS,
-  SIGN_OUT_FAILURE,
-  SIGN_OUT_REQUEST,
-  SIGN_OUT_SUCCESS,
-} from "../sagas/user";
+import * as ACTIONS from "./actions";
 
 const initialState = {
-  isLoading: false, // 비동기 요청 진행 중
+  signInLoading: false, // 비동기 요청 진행 중
+  signInDone: false,
+  signInError: null,
+  signOutLoading: false, // 비동기 요청 진행 중
+  signOutDone: false,
+  signOutError: null,
+
   isSignedIn: false,
   me: null,
   signUpData: {},
@@ -18,52 +17,69 @@ const initialState = {
 // actionCreators
 export const signInRequestAction = (data) => {
   return {
-    type: SIGN_IN_REQUEST,
+    type: ACTIONS.SIGN_IN_REQUEST,
     data,
   };
 };
 
 export const signOutRequestAction = (data) => {
   return {
-    type: SIGN_OUT_REQUEST,
+    type: ACTIONS.SIGN_OUT_REQUEST,
   };
 };
 
+const createDummyUser = (data) => ({
+  ...data,
+  id: 1,
+  username: "Erica",
+  Posts: [],
+  Followings: [],
+  Followers: [],
+});
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case SIGN_IN_REQUEST:
+    case ACTIONS.SIGN_IN_REQUEST:
       return {
         ...state,
-        isLoading: true,
+        signInLoading: true,
+        signInDone: false,
+        signInError: null, // 로딩 시 에러 삭제 필수
       };
-    case SIGN_IN_SUCCESS:
+    case ACTIONS.SIGN_IN_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        signInLoading: false,
+        signInDone: true,
         isSignedIn: true,
-        me: { ...action.data, username: "Erica" },
+        me: createDummyUser(action.data),
       };
-    case SIGN_IN_FAILURE:
+    case ACTIONS.SIGN_IN_FAILURE:
       return {
         ...state,
-        isLoading: false,
+        signInLoading: false,
+        signInError: action.error,
       };
-    case SIGN_OUT_REQUEST:
+    case ACTIONS.SIGN_OUT_REQUEST:
       return {
         ...state,
-        isLoading: true,
+        signOutLoading: true,
+        signOutDone: false,
+        signOutError: null,
       };
-    case SIGN_OUT_SUCCESS:
+    case ACTIONS.SIGN_OUT_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        signOutLoading: false,
+        signOutDone: true,
         isSignedIn: false,
         me: null,
       };
-    case SIGN_OUT_FAILURE:
+    case ACTIONS.SIGN_OUT_FAILURE:
       return {
         ...state,
-        isLoading: false,
+        signOutLoading: false,
+        signOutError: action.error,
       };
     default:
       return { ...state };

@@ -1,13 +1,6 @@
 import axios from "axios";
 import { put, delay, call, fork, takeLatest, all } from "redux-saga/effects";
-
-export const SIGN_IN_REQUEST = "SIGN_IN_REQUEST";
-export const SIGN_IN_SUCCESS = "SIGN_IN_SUCCESS";
-export const SIGN_IN_FAILURE = "SIGN_IN_FAILURE";
-
-export const SIGN_OUT_REQUEST = "SIGN_OUT_REQUEST";
-export const SIGN_OUT_SUCCESS = "SIGN_OUT_SUCCESS";
-export const SIGN_OUT_FAILURE = "SIGN_OUT_FAILURE";
+import * as ACTIONS from "../reducers/actions";
 
 // API 호출만 제너레이터 함수 아님
 function signInAPI(data, a, b, c) {
@@ -27,13 +20,13 @@ export function* signIn(action) {
     // call은 call, apply 처럼 매개변수를 펴 넣어줌
     // const result = yield call(signInAPI, action.data, "a", "b", "c");
     yield put({
-      type: SIGN_IN_SUCCESS,
+      type: ACTIONS.SIGN_IN_SUCCESS,
       data: action.data,
     });
   } catch (err) {
     yield put({
-      type: SIGN_IN_FAILURE,
-      data: err.response.data,
+      type: ACTIONS.SIGN_IN_FAILURE,
+      error: err.response.data,
     });
   }
 }
@@ -44,12 +37,12 @@ export function* signOut() {
     yield delay(1000);
     // yield call(signOutAPI);
     yield put({
-      type: SIGN_OUT_SUCCESS,
+      type: ACTIONS.SIGN_OUT_SUCCESS,
     });
   } catch (err) {
     yield put({
-      type: SIGN_OUT_FAILURE,
-      data: err.response.data,
+      type: ACTIONS.SIGN_OUT_FAILURE,
+      error: err.response.data,
     });
   }
 }
@@ -59,11 +52,11 @@ export function* signOut() {
 // 사용자의 잘못된 연속 클릭 중복 처리 방지 -> takeLatest 처리
 // TODO 서버측 별도 검사 없으면, throttle로 변경
 export function* watchSignIn() {
-  yield takeLatest(SIGN_IN_REQUEST, signIn);
+  yield takeLatest(ACTIONS.SIGN_IN_REQUEST, signIn);
 }
 
 export function* watchSignOut() {
-  yield takeLatest(SIGN_OUT_REQUEST, signOut);
+  yield takeLatest(ACTIONS.SIGN_OUT_REQUEST, signOut);
 }
 
 export default function* userSaga() {
