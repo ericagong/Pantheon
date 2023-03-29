@@ -6,6 +6,7 @@ import { Form, Input, Button } from "antd";
 const PostForm = () => {
   const dispatch = useDispatch();
 
+  const { me } = useSelector((state) => state.user);
   const { imagePaths, createPostDone } = useSelector((state) => state.post);
   const [text, setText] = useState("");
 
@@ -19,7 +20,7 @@ const PostForm = () => {
   }, [createPostDone]);
 
   const onSubmit = useCallback(() => {
-    dispatch(createPostAction(text));
+    dispatch(createPostAction({ content: text, User: me }));
   }, [text]);
 
   const onChangeText = useCallback((e) => {

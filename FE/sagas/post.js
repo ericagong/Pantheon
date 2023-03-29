@@ -1,4 +1,5 @@
 import axios from "axios";
+import shortId from "shortid";
 import { put, delay, call, takeLatest, all, fork } from "redux-saga/effects";
 import * as ACTIONS from "../reducers/actions";
 
@@ -13,14 +14,10 @@ export function createCommentAPI(data) {
 
 // 서버 통신 모방을 위한 더미 데이터 생성 함수
 const createDummyPost = (data) => ({
-  ...data,
-  User: {
-    id: 5,
-    username: "Pantheon",
-  },
-  content: "더미데이터",
   Images: [],
   Comments: [],
+  id: shortId.generate(),
+  ...data,
 });
 
 const createDummyComment = (data) => ({});

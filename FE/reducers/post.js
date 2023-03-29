@@ -66,10 +66,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         createPostLoading: false,
         createPostDone: true,
-        mainPosts: [
-          { ...action.data, id: state.mainPosts.length + 1 },
-          ...state.mainPosts,
-        ],
+        mainPosts: [action.data, ...state.mainPosts],
       };
     case ACTIONS.CREATE_POST_FAILURE:
       return {
