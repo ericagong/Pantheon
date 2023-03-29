@@ -5,6 +5,9 @@ const initialState = {
   createPostLoading: false, // 비동기 처리 진행 중
   createPostDone: false,
   createPostError: null,
+  deletePostLoading: false, // 비동기 처리 진행 중
+  deletePostDone: false,
+  deletePostError: null,
   createCommentLoading: false, // 비동기 처리 진행 중
   createCommentDone: false,
   createCommentError: null,
@@ -53,6 +56,11 @@ export const createPostAction = (data) => ({
   data,
 });
 
+export const deletePostAction = (data) => ({
+  type: ACTIONS.DELETE_POST_REQUEST,
+  data,
+});
+
 export const createCommentAction = (data) => ({
   type: ACTIONS.CREATE_COMMENT_REQUEST,
   data,
@@ -79,6 +87,28 @@ const reducer = (state = initialState, action) => {
         ...state,
         createPostLoading: false,
         createPostError: action.error,
+      };
+    case ACTIONS.DELETE_POST_REQUEST:
+      return {
+        ...state,
+        deletePostLoading: true,
+        deletePostDone: false,
+        deletePostError: null,
+      };
+    case ACTIONS.DELETE_POST_SUCCESS:
+      return {
+        ...state,
+        deletePostLoading: false,
+        deletePostDone: true,
+        mainPosts: state.mainPosts.filter(
+          (post) => post.id !== action.data.postId
+        ),
+      };
+    case ACTIONS.DELETE_POST_FAILURE:
+      return {
+        ...state,
+        deletePostLoading: false,
+        deletePostError: action.error,
       };
     case ACTIONS.CREATE_COMMENT_REQUEST:
       return {

@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState, useCallback } from "react";
 import { Card, Button, Avatar, Popover, List, Comment } from "antd";
 import {
@@ -13,8 +13,11 @@ import PostCardContent from "./PostCardContent";
 import CommentForm from "./CommentForm";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { deletePostAction } from "../reducers/post";
 
 const PostCard = ({ post }) => {
+  const dispatch = useDispatch();
+
   const id = useSelector((state) => state.user.me?.id);
 
   const [liked, setLiked] = useState(false);
@@ -26,6 +29,10 @@ const PostCard = ({ post }) => {
 
   const onToggleComment = useCallback(() => {
     setShowComments((prev) => !prev);
+  }, []);
+
+  const onDeletePost = useCallback(() => {
+    dispatch(deletePostAction({ postId: post.id }));
   }, []);
 
   return (
@@ -53,7 +60,9 @@ const PostCard = ({ post }) => {
                 {id && post.User.id === id ? (
                   <>
                     <Button>수정</Button>
-                    <Button type="danger">삭제</Button>
+                    <Button type="danger" onClick={onDeletePost}>
+                      삭제
+                    </Button>
                   </>
                 ) : (
                   <Button>신고</Button>
