@@ -10,7 +10,7 @@ const INPUT_STYLE = {
 };
 
 const Layout = ({ children }) => {
-  const signInDone = useSelector((state) => state.user.signInDone);
+  const me = useSelector((state) => state.user.me);
 
   const onSearch = (value) => console.log(value);
 
@@ -47,7 +47,7 @@ const Layout = ({ children }) => {
       <Menu items={items} mode="horizontal" />
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          {signInDone ? <UserProfile /> : <SignInForm />}
+          {me ? <UserProfile /> : <SignInForm />}
         </Col>
         <Col xs={24} md={12}>
           {children}
