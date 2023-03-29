@@ -14,13 +14,19 @@ export function createCommentAPI(data) {
 
 // 서버 통신 모방을 위한 더미 데이터 생성 함수
 const createDummyPost = (data) => ({
+  id: shortId.generate(),
   Images: [],
   Comments: [],
-  id: shortId.generate(),
   ...data,
 });
 
-const createDummyComment = (data) => ({});
+const createDummyComment = (data) => {
+  return {
+    id: shortId.gernerate(),
+    User: data.User,
+    content: data.content,
+  };
+};
 
 // 비동기 처리 함수
 export function* createPost(action) {
@@ -45,7 +51,10 @@ export function* createComment(action) {
     yield delay(1000);
     yield put({
       type: ACTIONS.CREATE_COMMENT_SUCCESS,
-      data: createDummyComment(action.data),
+      data: {
+        comment: createDummyComment(action.data),
+        postId: action.data.postId,
+      },
     });
   } catch (err) {
     yield put({

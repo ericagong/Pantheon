@@ -52,6 +52,11 @@ export const createPostAction = (data) => ({
   data,
 });
 
+export const createCommentAction = (data) => ({
+  type: ACTIONS.CREATE_COMMENT_REQUEST,
+  data,
+});
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ACTIONS.CREATE_POST_REQUEST:
@@ -86,6 +91,14 @@ const reducer = (state = initialState, action) => {
         ...state,
         createCommentLoading: false,
         createCommentDone: true,
+        mainPosts: state.mainPosts.map((post) => {
+          if (post.id === action.data.postId) {
+            return {
+              ...post,
+              Comments: [action.data.comment, ...post.Comments],
+            };
+          } else return post;
+        }),
       };
     case ACTIONS.CREATE_COMMENT_FAILURE:
       return {

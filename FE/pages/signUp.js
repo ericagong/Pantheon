@@ -41,8 +41,6 @@ const SignUp = () => {
       return setTermError(true);
     }
 
-    console.log(email, username, password);
-
     dispatch({
       type: ACTIONS.SIGN_UP_REQUEST,
       data: { email, username, password },

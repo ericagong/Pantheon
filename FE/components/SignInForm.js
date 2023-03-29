@@ -52,7 +52,6 @@ const SignInForm = () => {
 
   const onSignIn = useCallback(() => {
     // antd는 e.preventDefault 기본 적용
-    console.log(info);
     dispatch(signInRequestAction(info));
   }, [info]);
 

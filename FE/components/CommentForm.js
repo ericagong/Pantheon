@@ -3,24 +3,26 @@ import { useState, useCallback, useEffect } from "react";
 import * as ACTIONS from "../reducers/actions";
 import { Form, Input, Button } from "antd";
 import PropTypes from "prop-types";
+import { createCommentAction } from "../reducers/post";
 
 const CommentForm = ({ post }) => {
   const dispatch = useDispatch();
 
-  const id = useSelector((state) => state.user.me?.id);
+  const { id, username } = useSelector((state) => state.user.me);
   const createCommentDone = useSelector((state) => state.post);
   const [comment, setComment] = useState("");
 
   const onSubmit = useCallback(() => {
-    console.log(
-      `[제출] 게시글 정보: ${post.id} 댓글 내용: ${comment} 작성자 ${id}`
-    );
     // TODO 재사용성 있으면, 액션 생성 함수로 분리. 특정 컴포넌트에서만 사용되면 함수 분리 불필요.
-    dispatch({
-      type: ACTIONS.CREATE_COMMENT_REQUEST,
-      data: { content: comment, postId: post.id, userId: id },
-    });
-  }, [comment, id]);
+    console.log(id, username);
+    dispatch(
+      createCommentAction({
+        content: comment,
+        postId: post.id,
+        User: { id, username },
+      })
+    );
+  }, [comment, id, username]);
 
   // 서버측에서 에러가 나지 않고 성공적으로 처리된 경우만 작성했던 본문 비우기
   useEffect(() => {
