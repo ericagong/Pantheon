@@ -1,11 +1,16 @@
+import { useDispatch, useSelector } from "react-redux";
 import useInput from "../hooks/useInput";
 import { useState, useCallback } from "react";
+import * as ACTIONS from "../reducers/actions";
 import Layout from "../components/Layout";
 import Head from "next/head";
 import { Form, Input, Checkbox, Button } from "antd";
 import styled from "styled-components";
 
 const SignUp = () => {
+  const dispatch = useDispatch();
+  const { signUpLoading } = useSelector((state) => state.user);
+
   const [email, onChangeEmail] = useInput("");
   const [username, onChangeUsername] = useInput("");
   const [password, onChangePassword] = useInput("");
@@ -31,10 +36,17 @@ const SignUp = () => {
     if (password !== passwordCheck) {
       return setPasswordError(true);
     }
+
     if (!term) {
       return setTermError(true);
     }
+
     console.log(email, username, password);
+
+    dispatch({
+      type: ACTIONS.SIGN_UP_REQUEST,
+      data: { email, username, password },
+    });
   }, [password, passwordCheck, term]);
 
   return (
@@ -49,6 +61,8 @@ const SignUp = () => {
             <br />
             <Input
               name="email"
+              // type을 email로 적으면 html이 자동검사 수행
+              type="email"
               value={email}
               required
               onChange={onChangeEmail}
@@ -98,7 +112,7 @@ const SignUp = () => {
             )}
           </>
           <ButtonWrapper>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={signUpLoading}>
               가입하기
             </Button>
           </ButtonWrapper>
@@ -107,10 +121,6 @@ const SignUp = () => {
     </>
   );
 };
-
-const FieldWrapper = styled.div`
-  margin-top: 10px;
-`;
 
 const ErrorMessage = styled.div`
   color: "red";

@@ -15,6 +15,11 @@ const LABELS = {
   [NAMES.PW]: "비밀번호",
 };
 
+const TYPES = {
+  [NAMES.EMAIL]: "email", // type을 email로 적으면 html이 자동검사 수행
+  [NAMES.PW]: "password",
+};
+
 const SignInForm = () => {
   const dispatch = useDispatch();
   const { signInLoading } = useSelector((state) => state.user);
@@ -34,7 +39,13 @@ const SignInForm = () => {
       <FieldWrapper key={`field_${name}`}>
         <label htmlFor={name}>{LABELS[name]}</label>
         <br />
-        <Input name={name} value={info[name]} onChange={onChange} required />
+        <Input
+          name={name}
+          type={TYPES[name]}
+          value={info[name]}
+          onChange={onChange}
+          required
+        />
       </FieldWrapper>
     ));
   };
