@@ -14,7 +14,6 @@ const CommentForm = ({ post }) => {
 
   const onSubmit = useCallback(() => {
     // TODO 재사용성 있으면, 액션 생성 함수로 분리. 특정 컴포넌트에서만 사용되면 함수 분리 불필요.
-    console.log(id, username);
     dispatch(
       createCommentAction({
         content: comment,
@@ -47,7 +46,7 @@ const CommentForm = ({ post }) => {
         <Button
           type="primary"
           htmlType="submit"
-          style={{ position: "absolute", right: 0, bottom: -40 }}
+          style={{ position: "absolute", right: 0, bottom: -40, zIndex: 10 }}
         >
           작성하기
         </Button>

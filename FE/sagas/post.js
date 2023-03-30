@@ -26,7 +26,7 @@ const createDummyPost = (data) => ({
 
 const createDummyComment = (data) => {
   return {
-    id: shortId.gernerate(),
+    id: shortId.generate(),
     User: data.User,
     content: data.content,
   };

@@ -116,7 +116,7 @@ const CardWrapper = styled.div`
 
 PostCard.propTypes = {
   post: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    // id: PropTypes.string.isRequired,
     User: PropTypes.object.isRequired,
     content: PropTypes.string.isRequired,
     createdAt: PropTypes.object,
