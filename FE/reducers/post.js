@@ -1,14 +1,15 @@
 import shortId from "shortid";
 import * as ACTIONS from "./actions";
+import produce from "immer";
 
 const initialState = {
   createPostLoading: false, // 비동기 처리 진행 중
   createPostDone: false,
   createPostError: null,
-  deletePostLoading: false, // 비동기 처리 진행 중
+  deletePostLoading: false,
   deletePostDone: false,
   deletePostError: null,
-  createCommentLoading: false, // 비동기 처리 진행 중
+  createCommentLoading: false,
   createCommentDone: false,
   createCommentError: null,
   mainPosts: [
@@ -67,79 +68,63 @@ export const createCommentAction = (data) => ({
 });
 
 const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case ACTIONS.CREATE_POST_REQUEST:
-      return {
-        ...state,
-        createPostLoading: true,
-        createPostDone: false,
-        createPostError: null,
-      };
-    case ACTIONS.CREATE_POST_SUCCESS:
-      return {
-        ...state,
-        createPostLoading: false,
-        createPostDone: true,
-        mainPosts: [action.data, ...state.mainPosts],
-      };
-    case ACTIONS.CREATE_POST_FAILURE:
-      return {
-        ...state,
-        createPostLoading: false,
-        createPostError: action.error,
-      };
-    case ACTIONS.DELETE_POST_REQUEST:
-      return {
-        ...state,
-        deletePostLoading: true,
-        deletePostDone: false,
-        deletePostError: null,
-      };
-    case ACTIONS.DELETE_POST_SUCCESS:
-      return {
-        ...state,
-        deletePostLoading: false,
-        deletePostDone: true,
-        mainPosts: state.mainPosts.filter(
+  return produce(state, (draft) => {
+    switch (action.type) {
+      case ACTIONS.CREATE_POST_REQUEST:
+        draft.createPostLoading = true;
+        draft.createPostDone = false;
+        draft.createPostError = null;
+        break;
+      case ACTIONS.CREATE_POST_SUCCESS:
+        draft.createPostLoading = false;
+        draft.createPostDone = true;
+        draft.mainPosts.unshift(action.data); // 시간복잡도 좋지 않음
+        // draft.mainPosts = [action.data, ...draft.mainPosts];
+        break;
+      case ACTIONS.CREATE_POST_FAILURE:
+        draft.createPostLoading = false;
+        draft.createPostError = action.errorfalse;
+        break;
+      case ACTIONS.DELETE_POST_REQUEST:
+        draft.deletePostLoading = true;
+        draft.deletePostDone = false;
+        draft.deletePostError = null;
+        break;
+      case ACTIONS.DELETE_POST_SUCCESS:
+        draft.deletePostLoading = false;
+        draft.deletePostDone = true;
+        // 의미론적으로 immer 내에서는 불변성을 지키지 않아도 되므로 splice 사용 가능
+        draft.mainPosts = draft.mainPosts.filter(
           (post) => post.id !== action.data.postId
-        ),
-      };
-    case ACTIONS.DELETE_POST_FAILURE:
-      return {
-        ...state,
-        deletePostLoading: false,
-        deletePostError: action.error,
-      };
-    case ACTIONS.CREATE_COMMENT_REQUEST:
-      return {
-        ...state,
-        createCommentLoading: true,
-        createCommentDone: false,
-        createCommentError: null,
-      };
-    case ACTIONS.CREATE_COMMENT_SUCCESS:
-      return {
-        ...state,
-        createCommentLoading: false,
-        createCommentDone: true,
-        mainPosts: state.mainPosts.map((post) => {
-          if (post.id === action.data.postId) {
-            return {
-              ...post,
-              Comments: [action.data.comment, ...post.Comments],
-            };
-          } else return post;
-        }),
-      };
-    case ACTIONS.CREATE_COMMENT_FAILURE:
-      return {
-        ...state,
-        createCommentLoading: false,
-        createCommentError: action.error,
-      };
-    default:
-      return { ...state };
-  }
+        );
+        break;
+      case ACTIONS.DELETE_POST_FAILURE:
+        draft.deletePostLoading = false;
+        draft.deletePostError = action.error;
+        break;
+      case ACTIONS.CREATE_COMMENT_REQUEST:
+        draft.createCommentLoading = true;
+        draft.createCommentDone = false;
+        draft.createCommentError = null;
+        break;
+      case ACTIONS.CREATE_COMMENT_SUCCESS:
+        draft.createCommentLoading = false;
+        draft.createCommentDone = true;
+        // find, indexOf 차이
+        const targetPost = draft.mainPosts.find(
+          (post) => post.id === action.data.postId
+        );
+        targetPost.Comments.unshift(action.data.comment); // 시간복잡도 좋지 않음
+        // targetPost.Comments = [action.data, ...draft.Comments];
+        break;
+      case ACTIONS.CREATE_COMMENT_FAILURE:
+        draft.createCommentLoading = false;
+        draft.createCommentError = action.error;
+        break;
+      default:
+        break;
+    }
+  });
 };
 
 export default reducer;
