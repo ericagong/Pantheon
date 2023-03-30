@@ -1,3 +1,4 @@
+import faker from "faker";
 import shortId from "shortid";
 import * as ACTIONS from "./actions";
 import produce from "immer";
@@ -51,6 +52,30 @@ const initialState = {
   ], // 전체 포스트 목록
   imagePaths: [], // 이미지 업로드 시 경로들 저장
 };
+
+faker.seed(1031);
+initialState.mainPosts = initialState.mainPosts.concat(
+  Array(20)
+    .fill()
+    .map((_) => ({
+      id: shortId.generate(),
+      User: {
+        id: shortId.generate(),
+        username: faker.name.findName(),
+      },
+      content: faker.lorem.paragraph(),
+      Images: [{ src: faker.image.image() }, { src: faker.image.image() }],
+      Comments: [
+        {
+          User: {
+            id: shortId.generate(),
+            username: faker.name.findName(),
+          },
+          content: faker.lorem.sentence(),
+        },
+      ],
+    }))
+);
 
 export const createPostAction = (data) => ({
   type: ACTIONS.CREATE_POST_REQUEST,

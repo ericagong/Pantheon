@@ -28,7 +28,7 @@ const FollowList = ({ header, data }) => {
       renderItem={(item) => (
         <List.Item {...ITEM_STYLE}>
           <Card actions={[<StopOutlined key="stop" />]}>
-            <Card.Meta description={item.nickname} />
+            <Card.Meta description={item.username} />
           </Card>
         </List.Item>
       )}

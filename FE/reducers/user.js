@@ -46,30 +46,30 @@ const createDummyUser = (data) => ({
   Posts: [{ id: 1 }],
   Followings: [
     {
+      id: shortId.generate(),
       username: "HY",
-      id: shortId.generate(),
     },
     {
+      id: shortId.generate(),
       username: "JW",
-      id: shortId.generate(),
     },
     {
-      username: "YS",
       id: shortId.generate(),
+      username: "YS",
     },
   ],
   Followers: [
     {
+      id: shortId.generate(),
       username: "HYBOT",
-      id: shortId.generate(),
     },
     {
+      id: shortId.generate(),
       username: "JWBOT",
-      id: shortId.generate(),
     },
     {
-      username: "YSBOT",
       id: shortId.generate(),
+      username: "YSBOT",
     },
   ],
 });
