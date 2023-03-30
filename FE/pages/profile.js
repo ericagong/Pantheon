@@ -1,4 +1,6 @@
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import Router from "next/router";
 import Layout from "../components/Layout";
 import Head from "next/head";
 import UsernameEditForm from "../components/UsernameEditForm";
@@ -6,6 +8,15 @@ import FollowList from "../components/FollowList";
 
 const Profile = () => {
   const { me } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    // 프로필 페이지에서 로그아웃
+    if (!me) {
+      Router.push("/");
+    }
+  }, [me]);
+
+  if (!me) return null;
 
   return (
     <>
