@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import useInput from "../hooks/useInput";
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import * as ACTIONS from "../reducers/actions";
 import Layout from "../components/Layout";
 import Head from "next/head";

@@ -13,7 +13,7 @@ import PostCardContent from "./PostCardContent";
 import CommentForm from "./CommentForm";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { deletePostAction } from "../reducers/post";
+import { deletePostAction } from "../../reducers/post";
 
 const PostCard = ({ post }) => {
   const dispatch = useDispatch();

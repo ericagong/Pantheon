@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useCallback, useEffect } from "react";
-import * as ACTIONS from "../reducers/actions";
+import * as ACTIONS from "../../reducers/actions";
 import { Form, Input, Button } from "antd";
 import PropTypes from "prop-types";
-import { createCommentAction } from "../reducers/post";
+import { createCommentAction } from "../../reducers/post";
 
 const CommentForm = ({ post }) => {
   const dispatch = useDispatch();

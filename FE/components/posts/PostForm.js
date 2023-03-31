@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useRef, useCallback, useEffect } from "react";
-import { createPostAction } from "../reducers/post";
+import { createPostAction } from "../../reducers/post";
 import { Form, Input, Button } from "antd";
 
 const PostForm = () => {

@@ -1,7 +1,7 @@
 import Layout from "../components/Layout";
 import { useSelector } from "react-redux";
-import PostForm from "../components/PostForm";
-import PostCard from "../components/PostCard";
+import PostForm from "../components/posts/PostForm";
+import PostCard from "../components/posts/PostCard";
 
 const Home = () => {
   const me = useSelector((state) => state.user.me);

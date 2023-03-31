@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useMemo, useCallback } from "react";
 import { Card, Avatar, Button } from "antd";
-import { signOutRequestAction } from "../reducers/user";
+import { signOutRequestAction } from "../../reducers/user";
 
 const NAMES = {
   POSTS: "posts",
