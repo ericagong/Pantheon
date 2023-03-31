@@ -1,19 +1,19 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useCallback, useEffect } from "react";
-import * as ACTIONS from "../reducers/actions";
 import { Form, Input, Button } from "antd";
 import PropTypes from "prop-types";
-import { createCommentAction } from "../reducers/post";
+import { createCommentAction } from "../../reducers/post";
 
 const CommentForm = ({ post }) => {
   const dispatch = useDispatch();
 
-  const { id, username } = useSelector((state) => state.user.me);
+  const id = useSelector((state) => state.user.me.id);
+  const username = useSelector((state) => state.user.me.username);
   const createCommentDone = useSelector((state) => state.post);
   const [comment, setComment] = useState("");
 
   const onSubmit = useCallback(() => {
-    // TODO 재사용성 있으면, 액션 생성 함수로 분리. 특정 컴포넌트에서만 사용되면 함수 분리 불필요.
+    // TODO 서버 연결 시, user 정보 전체를 가져와서 User: user로 변경
     dispatch(
       createCommentAction({
         content: comment,

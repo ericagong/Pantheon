@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { Menu, Input, Row, Col } from "antd";
-import UserProfile from "./UserProfile";
-import SignInForm from "./SignInForm";
+import UserProfile from "./my/UserProfile";
+import SignInForm from "./auth/SignInForm";
 import PropTypes from "prop-types";
 
 const INPUT_STYLE = {

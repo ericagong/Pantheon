@@ -3,11 +3,11 @@ import { useEffect } from "react";
 import Router from "next/router";
 import Layout from "../components/Layout";
 import Head from "next/head";
-import UsernameEditForm from "../components/UsernameEditForm";
-import FollowList from "../components/FollowList";
+import UsernameEditForm from "../components/my/UsernameEditForm";
+import FollowList from "../components/my/FollowList";
 
 const Profile = () => {
-  const { me } = useSelector((state) => state.user);
+  const me = useSelector((state) => state.user.me);
 
   useEffect(() => {
     // 프로필 페이지에서 로그아웃

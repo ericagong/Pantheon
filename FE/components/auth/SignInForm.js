@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useCallback } from "react";
-import { signInRequestAction } from "../reducers/user";
+import { signInRequestAction } from "../../reducers/user";
 import { Form, Input, Button } from "antd";
 import Link from "next/link";
 import styled from "styled-components";
@@ -22,7 +22,7 @@ const TYPES = {
 
 const SignInForm = () => {
   const dispatch = useDispatch();
-  const { signInLoading } = useSelector((state) => state.user);
+  const signInLoading = useSelector((state) => state.user.signInLoading);
 
   const [info, setInfo] = useState({
     [NAMES.EMAIL]: "",
