@@ -1,12 +1,19 @@
 import axios from "axios";
-import shortId from "shortid";
 import { put, delay, call, takeLatest, all, fork } from "redux-saga/effects";
+import {
+  createOnePost,
+  createManyPosts,
+  createOneComment,
+} from "../reducers/dummies";
 import * as ACTIONS from "../reducers/actions";
 
-// TODO LOAD_POSTS_REQUEST	추가하기
 // API call functions
 export function createPostAPI(data) {
   axios.post("/api/post", data);
+}
+
+export function readPostsAPI(data) {
+  axios.post("/api/posts", data); // page_num 등의 정보 전달
 }
 
 export function removePostAPI(data) {
@@ -17,24 +24,8 @@ export function createCommentAPI(data) {
   axios.post("/api/comment", data);
 }
 
-// dummy data creators
-// 서버 통신 모방을 위한 더미 데이터 생성 함수
-const createDummyPost = (data) => ({
-  id: shortId.generate(),
-  Images: [],
-  Comments: [],
-  ...data,
-});
-
-const createDummyComment = (data) => {
-  return {
-    id: shortId.generate(),
-    User: data.User,
-    content: data.content,
-  };
-};
-
 // async functions (비동기 처리 함수)
+// ACTION_MODEL_REQUEST에서 전달된 action을 받아 처리
 
 /**
  * createPost
@@ -46,11 +37,10 @@ export function* createPost(action) {
   try {
     // const response = yield call(createPostAPI, action.data)
     yield delay(1000);
-    const dummyPost = createDummyPost(action.data);
     // 신규 post 생성
     yield put({
       type: ACTIONS.CREATE_POST_SUCCESS,
-      data: dummyPost,
+      data: createOnePost(action.data),
     });
     // dummy 데이터 사용하므로, 생성 post를 나의 post 목록 추가 (서버 연결 시 제거)
     yield put({
@@ -63,6 +53,23 @@ export function* createPost(action) {
       error: err.response.data,
     });
   }
+}
+
+/**
+ * readPosts
+ * @param {{type, data: {???}}} action
+ * @description action.data로 DB 내 일정 수의 Posts를 받아오는 API를 호출.
+ * @description 호출 결과에 따라 __SUCCESS, __FAILURE를 action을 dispatch.
+ */
+export function* readPosts(action) {
+  try {
+    // const response = yield call(readPosts, action.data);
+    yield delay(1000);
+    yield put({
+      type: ACTIONS.READ_POSTS_SUCCESS,
+      data: createManyPosts(),
+    });
+  } catch (err) {}
 }
 
 export function* deletePost(action) {
@@ -104,7 +111,7 @@ export function* createComment(action) {
     yield put({
       type: ACTIONS.CREATE_COMMENT_SUCCESS,
       data: {
-        comment: createDummyComment(action.data),
+        comment: createOneComment(action.data),
         postId: action.data.postId,
       },
     });
@@ -121,6 +128,10 @@ export function* watchCreatePost() {
   yield takeLatest(ACTIONS.CREATE_POST_REQUEST, createPost);
 }
 
+export function* watchReadPosts() {
+  yield takeLatest(ACTIONS.READ_POSTS_REQUEST, readPosts);
+}
+
 export function* watchDeletePost() {
   yield takeLatest(ACTIONS.DELETE_POST_REQUEST, deletePost);
 }
@@ -133,6 +144,7 @@ export function* watchCreateComment() {
 export default function* postSaga() {
   yield all([
     fork(watchCreatePost),
+    fork(watchReadPosts),
     fork(watchDeletePost),
     fork(watchCreateComment),
   ]);
