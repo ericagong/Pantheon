@@ -57,8 +57,8 @@ export const deletePostAction = (data) => ({
 });
 
 /**
- *
- * @param {*} data
+ * createCommentAction
+ * @param {{content, postId, User}} data
  * @returns
  */
 export const createCommentAction = (data) => ({

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useCallback } from "react";
-import { Card, Button, Avatar, Popover, List, Comment } from "antd";
+import { Card, Button, Avatar, Popover } from "antd";
 import {
   RetweetOutlined,
   HeartOutlined,
@@ -11,9 +11,10 @@ import {
 import PostImages from "./PostImages";
 import PostCardContent from "./PostCardContent";
 import CommentForm from "./CommentForm";
+import { deletePostAction } from "../../reducers/post";
+import CommentList from "./CommentList";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { deletePostAction } from "../../reducers/post";
 
 const PostCard = ({ post }) => {
   const dispatch = useDispatch();
@@ -90,20 +91,7 @@ const PostCard = ({ post }) => {
       {showComments && (
         <>
           {id && <CommentForm post={post} />}
-          <List
-            header={`${post.Comments.length}개의 댓글`}
-            itemLayout="horizontal"
-            dataSource={post.Comments}
-            renderItem={(item) => (
-              <li>
-                <Comment
-                  author={item.User.username}
-                  avatar={<Avatar>{item.User.username[0]}</Avatar>}
-                  content={item.content}
-                />
-              </li>
-            )}
-          />
+          <CommentList comments={post.Comments} />
         </>
       )}
     </CardWrapper>

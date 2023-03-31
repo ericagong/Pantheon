@@ -24,7 +24,7 @@ export function readPostsAPI(data) {
   axios.post("/api/posts", data); // page_num 등의 정보 전달
 }
 
-export function removePostAPI(data) {
+export function deletePostAPI(data) {
   axios.delete("/api/post", data);
 }
 
@@ -72,7 +72,7 @@ export function* createPost(action) {
  */
 export function* readPosts(action) {
   try {
-    // const response = yield call(readPosts, action.data);
+    // const response = yield call(readPostsAPI, action.data);
     yield delay(1000);
     yield put({
       type: ACTIONS.READ_POSTS_SUCCESS,
@@ -89,7 +89,7 @@ export function* readPosts(action) {
  */
 export function* deletePost(action) {
   try {
-    // const response = yield call(deletePost, action.data)
+    // const response = yield call(deletePostAPI, action.data)
     yield delay(1000);
     // 선택 post 삭제
     yield put({
