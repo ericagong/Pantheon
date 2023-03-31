@@ -3,6 +3,7 @@ import shortId from "shortid";
 import { put, delay, call, takeLatest, all, fork } from "redux-saga/effects";
 import * as ACTIONS from "../reducers/actions";
 
+// TODO LOAD_POSTS_REQUEST	추가하기
 // API 호출
 export function createPostAPI(data) {
   axios.post("/api/post", data);

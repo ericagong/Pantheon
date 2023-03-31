@@ -53,6 +53,9 @@ const initialState = {
   imagePaths: [], // 이미지 업로드 시 경로들 저장
 };
 
+/**
+ * 더미 포스트 생성
+ */
 faker.seed(1031);
 initialState.mainPosts = initialState.mainPosts.concat(
   Array(20)

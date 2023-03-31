@@ -19,16 +19,16 @@ const PostForm = () => {
     }
   }, [createPostDone]);
 
-  const onSubmit = useCallback(() => {
+  const _onSubmit = useCallback(() => {
     dispatch(createPostAction({ content: text, User: me }));
   }, [text]);
 
-  const onChangeText = useCallback((e) => {
+  const _onChangeText = useCallback((e) => {
     setText(e.target.value);
   }, []);
 
   // ref 통해 DOM 요소 직접 접근
-  const onClickImageButton = useCallback(() => {
+  const _onClickImageButton = useCallback(() => {
     imageInputRef.current.click();
   }, [imageInputRef.current]);
 
@@ -36,34 +36,29 @@ const PostForm = () => {
     <Form
       style={{ margin: "10px 0 20px" }}
       encType="multipart/form-data"
-      onFinish={onSubmit}
+      onFinish={_onSubmit}
     >
       <Input.TextArea
         value={text}
-        onChange={onChangeText}
+        onChange={_onChangeText}
         maxLength={140}
-        placeholder="어떤 신기한 일이 있었나요?"
+        placeholder="즐거운 추억이 있다면 공유해보세요."
       />
-      <div>
-        <input type="file" ref={imageInputRef} multiple hidden />
-        <Button onClick={onClickImageButton}>이미지 업로드</Button>
-        <Button type="primary" htmlType="submit" style={{ float: "right" }}>
-          작성하기
-        </Button>
-      </div>
-      .
-      <div>
-        {imagePaths.map((v) => {
-          return (
-            <div key={v} style={{ display: "inline-block" }}>
-              <img src={v} style={{ width: "200px" }} alt={v} />
-              <div>
-                <Button>제거</Button>
-              </div>
+      <input type="file" ref={imageInputRef} multiple hidden />
+      <Button onClick={_onClickImageButton}>이미지 업로드</Button>
+      <Button type="primary" htmlType="submit" style={{ float: "right" }}>
+        작성하기
+      </Button>
+      {imagePaths.map((v) => {
+        return (
+          <div key={v} style={{ display: "inline-block" }}>
+            <img src={v} style={{ width: "200px" }} alt={v} />
+            <div>
+              <Button>제거</Button>
             </div>
-          );
-        })}
-      </div>
+          </div>
+        );
+      })}
     </Form>
   );
 };

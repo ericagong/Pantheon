@@ -11,19 +11,22 @@ const SignUp = () => {
   const dispatch = useDispatch();
   const { signUpLoading } = useSelector((state) => state.user);
 
-  const [email, onChangeEmail] = useInput("");
-  const [username, onChangeUsername] = useInput("");
-  const [password, onChangePassword] = useInput("");
+  const [email, _, onChangeEmail] = useInput("");
+  const [username, __, onChangeUsername] = useInput("");
+  const [password, ___, onChangePassword] = useInput("");
 
-  const [passwordCheck, setPasswordCheck] = useState("");
-  const [passwordError, setPasswordError] = useState(false);
-  const [term, setTerm] = useState("");
-  const [termError, setTermError] = useState(false);
+  const [passwordCheck, setPasswordCheck] = useInput("");
+  const [passwordError, setPasswordError] = useInput(false);
+  const [term, setTerm] = useInput("");
+  const [termError, setTermError] = useInput(false);
 
-  const onChangePasswordCheck = useCallback((e) => {
-    setPasswordCheck(e.target.value);
-    setPasswordError(e.target.value !== password);
-  }, []);
+  const onChangePasswordCheck = useCallback(
+    (e) => {
+      setPasswordCheck(e.target.value);
+      setPasswordError(e.target.value !== password);
+    },
+    [password]
+  );
 
   const onChangeTerm = useCallback((e) => {
     setTerm(e.target.checked);
