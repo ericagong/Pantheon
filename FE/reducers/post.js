@@ -121,7 +121,7 @@ const reducer = (state = initialState, action) => {
         draft.createPostDone = false;
         draft.createPostError = null;
         break;
-      case ACTIONS.CREATE_POST_SUCCESS:
+      case ACTIONS.CREATE_POST_SUCCESS: // action = {type, data: Post}
         draft.createPostLoading = false;
         draft.createPostDone = true;
         draft.mainPosts.unshift(action.data); // 시간복잡도 좋지 않음
@@ -153,7 +153,7 @@ const reducer = (state = initialState, action) => {
         draft.createCommentDone = false;
         draft.createCommentError = null;
         break;
-      case ACTIONS.CREATE_COMMENT_SUCCESS:
+      case ACTIONS.CREATE_COMMENT_SUCCESS: // action = {type, data: {comment, postId}}
         draft.createCommentLoading = false;
         draft.createCommentDone = true;
         // find, indexOf 차이

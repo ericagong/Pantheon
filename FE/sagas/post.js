@@ -38,8 +38,9 @@ const createDummyComment = (data) => {
 
 /**
  * createPost
- * @param {{type, data: { content: text, User: me }}} action
- * @description action.data로 Post 생성 API를 호출하고 그 결과에 따라 __SUCCESS, __FAILURE를 action을 dispatch하는 함수
+ * @param {{type, data: { content, User }}} action
+ * @description action.data로 Post 생성 API를 호출.
+ * @description 호출 결과에 따라 __SUCCESS, __FAILURE를 action을 dispatch.
  */
 export function* createPost(action) {
   try {
@@ -90,6 +91,12 @@ export function* deletePost(action) {
   }
 }
 
+/**
+ * createComment
+ * @param {{type, data: { content, postId, User}}}
+ * @description action.data로 Comment 생성 API를 호출.
+ * @description 호출 결과에 따라 __SUCCESS, __FAILURE를 action을 dispatch.
+ */
 export function* createComment(action) {
   try {
     // const response = yield call(createCommentAPI, action.data)
