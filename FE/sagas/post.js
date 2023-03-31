@@ -1,5 +1,13 @@
 import axios from "axios";
-import { put, delay, call, takeLatest, all, fork } from "redux-saga/effects";
+import {
+  put,
+  delay,
+  call,
+  takeLatest,
+  throttle,
+  all,
+  fork,
+} from "redux-saga/effects";
 import {
   createOnePost,
   createManyPosts,
@@ -129,7 +137,8 @@ export function* watchCreatePost() {
 }
 
 export function* watchReadPosts() {
-  yield takeLatest(ACTIONS.READ_POSTS_REQUEST, readPosts);
+  // yield takeLatest(ACTIONS.READ_POSTS_REQUEST, readPosts);
+  yield throttle(5000, ACTIONS.READ_POSTS_REQUEST, readPosts);
 }
 
 export function* watchDeletePost() {
