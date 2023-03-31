@@ -1,22 +1,31 @@
+import { useDispatch, useSelector } from "react-redux";
 import { useState, useCallback } from "react";
+import { signInRequestAction } from "../reducers/user";
 import { Form, Input, Button } from "antd";
 import Link from "next/link";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 
 const NAMES = {
-  ID: "id",
+  EMAIL: "email",
   PW: "password",
 };
 
 const LABELS = {
-  [NAMES.ID]: "아이디",
+  [NAMES.EMAIL]: "이메일",
   [NAMES.PW]: "비밀번호",
 };
 
-const SignInForm = ({ setIsLoggedIn }) => {
+const TYPES = {
+  [NAMES.EMAIL]: "email", // type을 email로 적으면 html이 자동검사 수행
+  [NAMES.PW]: "password",
+};
+
+const SignInForm = () => {
+  const dispatch = useDispatch();
+  const { signInLoading } = useSelector((state) => state.user);
+
   const [info, setInfo] = useState({
-    [NAMES.ID]: "",
+    [NAMES.EMAIL]: "",
     [NAMES.PW]: "",
   });
 
@@ -25,28 +34,32 @@ const SignInForm = ({ setIsLoggedIn }) => {
     setInfo((prev) => ({ ...prev, [name]: value }));
   }, []);
 
-  // THINK 리렌더링 발생하는지?
   const getInputs = () => {
     return Object.values(NAMES).map((name) => (
       <FieldWrapper key={`field_${name}`}>
         <label htmlFor={name}>{LABELS[name]}</label>
         <br />
-        <Input name={name} value={info[name]} onChange={onChange} required />
+        <Input
+          name={name}
+          type={TYPES[name]}
+          value={info[name]}
+          onChange={onChange}
+          required
+        />
       </FieldWrapper>
     ));
   };
 
   const onSignIn = useCallback(() => {
-    // antd 에서는 e.preventDefault 기본 적용
-    console.log(info);
-    setIsLoggedIn(true);
+    // antd는 e.preventDefault 기본 적용
+    dispatch(signInRequestAction(info));
   }, [info]);
 
   return (
     <FormWrapper onFinish={onSignIn}>
       {getInputs()}
       <ButtonWrapper>
-        <Button type="primary" htmlType="submit" loading={false}>
+        <Button type="primary" htmlType="submit" loading={signInLoading}>
           로그인
         </Button>
         <Link href="/signUp">
@@ -68,9 +81,5 @@ const FieldWrapper = styled.div`
 const ButtonWrapper = styled.div`
   margin-top: 10px;
 `;
-
-SignInForm.propTypes = {
-  setIsLoggedIn: PropTypes.func.isRequired,
-};
 
 export default SignInForm;

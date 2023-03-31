@@ -1,20 +1,20 @@
-import { useState, useMemo } from "react";
 import Link from "next/link";
+import { useSelector } from "react-redux";
 import { Menu, Input, Row, Col } from "antd";
 import UserProfile from "./UserProfile";
 import SignInForm from "./SignInForm";
 import PropTypes from "prop-types";
 
+const INPUT_STYLE = {
+  style: { verticalAlign: "middle" },
+};
+
 const Layout = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const me = useSelector((state) => state.user.me);
 
   const onSearch = (value) => console.log(value);
 
   const { Search } = Input;
-
-  const InputStyle = useMemo(() => {
-    return { verticalAlign: "midddle" };
-  }, []);
 
   const items = [
     {
@@ -31,7 +31,7 @@ const Layout = ({ children }) => {
           placeholder="검색어를 입력하세요."
           onSearch={onSearch}
           enterButton
-          style={InputStyle}
+          {...INPUT_STYLE}
         />
       ),
       key: "searchBar",
@@ -47,11 +47,7 @@ const Layout = ({ children }) => {
       <Menu items={items} mode="horizontal" />
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          {isLoggedIn ? (
-            <UserProfile setIsLoggedIn={setIsLoggedIn} />
-          ) : (
-            <SignInForm setIsLoggedIn={setIsLoggedIn} />
-          )}
+          {me ? <UserProfile /> : <SignInForm />}
         </Col>
         <Col xs={24} md={12}>
           {children}

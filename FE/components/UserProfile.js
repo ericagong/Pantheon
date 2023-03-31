@@ -1,59 +1,60 @@
-import { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useMemo, useCallback } from "react";
 import { Card, Avatar, Button } from "antd";
-import styled from "styled-components";
-import PropTypes from "prop-types";
-
-const DUMMY_USER = {
-  USERNAME: "Pantheon",
-  PROFILE: "PT",
-};
+import { signOutRequestAction } from "../reducers/user";
 
 const NAMES = {
-  ALERT: "alert",
+  POSTS: "posts",
   FOLLOWINGS: "followings",
   FOLLOWERS: "followers",
 };
 
 const LABELS = {
-  [NAMES.ALERT]: "알림",
+  [NAMES.POSTS]: "게시글",
   [NAMES.FOLLOWINGS]: "팔로잉",
   [NAMES.FOLLOWERS]: "팔로워",
 };
 
-const DATA = {
-  [NAMES.ALERT]: 1,
-  [NAMES.FOLLOWINGS]: 13,
-  [NAMES.FOLLOWERS]: 1000,
-};
+const UserProfile = () => {
+  const dispatch = useDispatch();
+  const { me, signOutLoading } = useSelector((state) => state.user);
 
-const UserProfile = ({ setIsLoggedIn }) => {
+  const data = useMemo(
+    () => ({
+      [NAMES.POSTS]: me.Posts.length,
+      [NAMES.FOLLOWINGS]: me.Followings.length,
+      [NAMES.FOLLOWERS]: me.Followers.length,
+    }),
+    [me]
+  );
+
   const getInfo = () => {
     return Object.values(NAMES).map((name) => (
       <div key={`info_${name}`}>
         {LABELS[name]}
         <br />
-        {DATA[name]}
+        {data[name]}
       </div>
     ));
   };
 
   const onSignOut = useCallback(() => {
-    setIsLoggedIn(false);
+    dispatch(signOutRequestAction());
   }, []);
 
   return (
     <Card actions={getInfo()}>
       <Card.Meta
-        avatar={<Avatar>{DUMMY_USER.PROFILE}</Avatar>}
-        title={DUMMY_USER.USERNAME}
-        description={<Button onClick={onSignOut}>로그아웃</Button>}
+        avatar={<Avatar>{me.username[0]}</Avatar>}
+        title={me.username}
+        description={
+          <Button onClick={onSignOut} loading={signOutLoading}>
+            로그아웃
+          </Button>
+        }
       />
     </Card>
   );
-};
-
-UserProfile.propTypes = {
-  setIsLoggedIn: PropTypes.func.isRequired,
 };
 
 export default UserProfile;
