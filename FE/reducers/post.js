@@ -31,7 +31,7 @@ const initialState = {
 /**
  * createPostAction
  * @param {{ content: text, User: me }} data
- * @returns action 객체 반환
+ * @returns action 객체
  */
 export const createPostAction = (data) => ({
   type: ACTIONS.CREATE_POST_REQUEST,
@@ -39,17 +39,17 @@ export const createPostAction = (data) => ({
 });
 
 /**
- * readdPostsAction
- * @returns action 객체 반환
+ * readPostsAction
+ * @returns action 객체
  */
 export const readPostsAction = () => ({
   type: ACTIONS.READ_POSTS_REQUEST,
 });
 
 /**
- *
- * @param {*} data
- * @returns
+ * deletePostAction
+ * @param {{ postId }} data
+ * @returns action 객체
  */
 export const deletePostAction = (data) => ({
   type: ACTIONS.DELETE_POST_REQUEST,
@@ -107,7 +107,7 @@ const reducer = (state = initialState, action) => {
         draft.deletePostDone = false;
         draft.deletePostError = null;
         break;
-      case ACTIONS.DELETE_POST_SUCCESS:
+      case ACTIONS.DELETE_POST_SUCCESS: // action = {type, data: {postId}}
         draft.deletePostLoading = false;
         draft.deletePostDone = true;
         // 의미론적으로 immer 내에서는 불변성을 지키지 않아도 되므로 splice 사용 가능

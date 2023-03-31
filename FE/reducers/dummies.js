@@ -10,7 +10,14 @@ faker.seed(1031);
  */
 export const createOnePost = (data) => ({
   id: shortId.generate(),
-  Images: [],
+  Images: [
+    {
+      src: faker.image.image(),
+    },
+    {
+      src: faker.image.image(),
+    },
+  ],
   Comments: [],
   ...data,
 });

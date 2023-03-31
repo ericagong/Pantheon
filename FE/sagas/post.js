@@ -46,9 +46,10 @@ export function* createPost(action) {
     // const response = yield call(createPostAPI, action.data)
     yield delay(1000);
     // 신규 post 생성
+    const dummyPost = createOnePost(action.data);
     yield put({
       type: ACTIONS.CREATE_POST_SUCCESS,
-      data: createOnePost(action.data),
+      data: dummyPost,
     });
     // dummy 데이터 사용하므로, 생성 post를 나의 post 목록 추가 (서버 연결 시 제거)
     yield put({
@@ -80,6 +81,12 @@ export function* readPosts(action) {
   } catch (err) {}
 }
 
+/**
+ * deletePost
+ * @param {{type, data: { postId }}} action
+ * @description action.data 내의 postId에 해당하는 post 제거 API 호출.
+ * @description 호출 결과에 따라 __SUCCESS, __FAILURE를 action을 dispatch.
+ */
 export function* deletePost(action) {
   try {
     // const response = yield call(deletePost, action.data)
