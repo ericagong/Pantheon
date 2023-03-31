@@ -9,7 +9,7 @@ import styled from "styled-components";
 
 const SignUp = () => {
   const dispatch = useDispatch();
-  const { signUpLoading } = useSelector((state) => state.user);
+  const signUpLoading = useSelector((state) => state.user.signUpLoading);
 
   const [email, _, onChangeEmail] = useInput("");
   const [username, __, onChangeUsername] = useInput("");

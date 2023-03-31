@@ -4,8 +4,7 @@ import PostForm from "../components/PostForm";
 import PostCard from "../components/PostCard";
 
 const Home = () => {
-  // TODO 둘 중 어느 편이 최적화 측면에서 좋은지 생각해보기
-  const { me } = useSelector((state) => state.user);
+  const me = useSelector((state) => state.user.me);
   const mainPosts = useSelector((state) => state.post.mainPosts);
 
   return (

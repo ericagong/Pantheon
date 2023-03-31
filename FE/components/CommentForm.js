@@ -8,7 +8,8 @@ import { createCommentAction } from "../reducers/post";
 const CommentForm = ({ post }) => {
   const dispatch = useDispatch();
 
-  const { id, username } = useSelector((state) => state.user.me);
+  const id = useSelector((state) => state.user.me.id);
+  const username = useSelector((state) => state.user.me.username);
   const createCommentDone = useSelector((state) => state.post);
   const [comment, setComment] = useState("");
 

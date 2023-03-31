@@ -22,7 +22,7 @@ const TYPES = {
 
 const SignInForm = () => {
   const dispatch = useDispatch();
-  const { signInLoading } = useSelector((state) => state.user);
+  const signInLoading = useSelector((state) => state.user.signInLoading);
 
   const [info, setInfo] = useState({
     [NAMES.EMAIL]: "",

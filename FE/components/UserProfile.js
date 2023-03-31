@@ -17,7 +17,8 @@ const LABELS = {
 
 const UserProfile = () => {
   const dispatch = useDispatch();
-  const { me, signOutLoading } = useSelector((state) => state.user);
+  const me = useSelector((state) => state.user.me);
+  const signOutLoading = useSelector((state) => state.user.signOutLoading);
 
   const data = useMemo(
     () => ({

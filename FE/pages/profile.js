@@ -7,7 +7,7 @@ import UsernameEditForm from "../components/UsernameEditForm";
 import FollowList from "../components/FollowList";
 
 const Profile = () => {
-  const { me } = useSelector((state) => state.user);
+  const me = useSelector((state) => state.user.me);
 
   useEffect(() => {
     // 프로필 페이지에서 로그아웃

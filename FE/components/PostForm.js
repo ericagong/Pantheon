@@ -6,8 +6,9 @@ import { Form, Input, Button } from "antd";
 const PostForm = () => {
   const dispatch = useDispatch();
 
-  const { me } = useSelector((state) => state.user);
-  const { imagePaths, createPostDone } = useSelector((state) => state.post);
+  const me = useSelector((state) => state.user.me);
+  const imagePaths = useSelector((state) => state.post.imagePaths);
+  const createPostDone = useSelector((state) => state.post.createPostDone);
   const [text, setText] = useState("");
 
   const imageInputRef = useRef();
