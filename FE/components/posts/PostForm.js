@@ -9,6 +9,7 @@ const PostForm = () => {
   const me = useSelector((state) => state.user.me);
   const imagePaths = useSelector((state) => state.post.imagePaths);
   const createPostDone = useSelector((state) => state.post.createPostDone);
+
   const [text, setText] = useState("");
 
   const imageInputRef = useRef();
@@ -20,16 +21,16 @@ const PostForm = () => {
     }
   }, [createPostDone]);
 
-  const _onSubmit = useCallback(() => {
+  const onSubmit = useCallback(() => {
     dispatch(createPostAction({ content: text, User: me }));
-  }, [text]);
+  }, [text, me]);
 
-  const _onChangeText = useCallback((e) => {
+  const onChangeText = useCallback((e) => {
     setText(e.target.value);
   }, []);
 
-  // ref 통해 DOM 요소 직접 접근
-  const _onClickImageButton = useCallback(() => {
+  // ref 통해 DOM 요소 직접 접근 가능
+  const onClickImageButton = useCallback(() => {
     imageInputRef.current.click();
   }, [imageInputRef.current]);
 
@@ -37,16 +38,16 @@ const PostForm = () => {
     <Form
       style={{ margin: "10px 0 20px" }}
       encType="multipart/form-data"
-      onFinish={_onSubmit}
+      onFinish={onSubmit}
     >
       <Input.TextArea
         value={text}
-        onChange={_onChangeText}
+        onChange={onChangeText}
         maxLength={140}
         placeholder="즐거운 추억이 있다면 공유해보세요."
       />
       <input type="file" ref={imageInputRef} multiple hidden />
-      <Button onClick={_onClickImageButton}>이미지 업로드</Button>
+      <Button onClick={onClickImageButton}>이미지 업로드</Button>
       <Button type="primary" htmlType="submit" style={{ float: "right" }}>
         작성하기
       </Button>
@@ -55,7 +56,7 @@ const PostForm = () => {
           <div key={v} style={{ display: "inline-block" }}>
             <img src={v} style={{ width: "200px" }} alt={v} />
             <div>
-              <Button>제거</Button>
+              <Button>삭제하기</Button>
             </div>
           </div>
         );

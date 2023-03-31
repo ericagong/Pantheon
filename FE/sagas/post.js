@@ -4,7 +4,7 @@ import { put, delay, call, takeLatest, all, fork } from "redux-saga/effects";
 import * as ACTIONS from "../reducers/actions";
 
 // TODO LOAD_POSTS_REQUEST	추가하기
-// API 호출
+// API call functions
 export function createPostAPI(data) {
   axios.post("/api/post", data);
 }
@@ -17,6 +17,7 @@ export function createCommentAPI(data) {
   axios.post("/api/comment", data);
 }
 
+// dummy data creators
 // 서버 통신 모방을 위한 더미 데이터 생성 함수
 const createDummyPost = (data) => ({
   id: shortId.generate(),
@@ -33,7 +34,13 @@ const createDummyComment = (data) => {
   };
 };
 
-// 비동기 처리 함수
+// async functions (비동기 처리 함수)
+
+/**
+ * createPost
+ * @param {{type, data: { content: text, User: me }}} action
+ * @description action.data로 Post 생성 API를 호출하고 그 결과에 따라 __SUCCESS, __FAILURE를 action을 dispatch하는 함수
+ */
 export function* createPost(action) {
   try {
     // const response = yield call(createPostAPI, action.data)
@@ -44,7 +51,7 @@ export function* createPost(action) {
       type: ACTIONS.CREATE_POST_SUCCESS,
       data: dummyPost,
     });
-    // 생성 post를 나의 post 목록에 추가
+    // dummy 데이터 사용하므로, 생성 post를 나의 post 목록 추가 (서버 연결 시 제거)
     yield put({
       type: ACTIONS.ADD_POST_TO_ME,
       data: dummyPost.id,
@@ -102,7 +109,7 @@ export function* createComment(action) {
   }
 }
 
-// 액션 핸들러
+// action handlers
 export function* watchCreatePost() {
   yield takeLatest(ACTIONS.CREATE_POST_REQUEST, createPost);
 }

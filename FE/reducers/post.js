@@ -3,6 +3,7 @@ import shortId from "shortid";
 import * as ACTIONS from "./actions";
 import produce from "immer";
 
+// initial state
 const initialState = {
   createPostLoading: false, // 비동기 처리 진행 중
   createPostDone: false,
@@ -80,21 +81,38 @@ initialState.mainPosts = initialState.mainPosts.concat(
     }))
 );
 
+// action creators
+/**
+ * createPostAction
+ * @param {{ content: text, User: me }} data
+ * @returns action 객체 반환
+ */
 export const createPostAction = (data) => ({
   type: ACTIONS.CREATE_POST_REQUEST,
   data,
 });
 
+/**
+ *
+ * @param {*} data
+ * @returns
+ */
 export const deletePostAction = (data) => ({
   type: ACTIONS.DELETE_POST_REQUEST,
   data,
 });
 
+/**
+ *
+ * @param {*} data
+ * @returns
+ */
 export const createCommentAction = (data) => ({
   type: ACTIONS.CREATE_COMMENT_REQUEST,
   data,
 });
 
+// reducer
 const reducer = (state = initialState, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
@@ -111,7 +129,7 @@ const reducer = (state = initialState, action) => {
         break;
       case ACTIONS.CREATE_POST_FAILURE:
         draft.createPostLoading = false;
-        draft.createPostError = action.errorfalse;
+        draft.createPostError = action.error;
         break;
       case ACTIONS.DELETE_POST_REQUEST:
         draft.deletePostLoading = true;
