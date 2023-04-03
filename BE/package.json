@@ -1,0 +1,11 @@
+{
+  "name": "pantheon_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "dev": ""
+  },
+  "author": "Erica Gong",
+  "license": "ISC"
+}
