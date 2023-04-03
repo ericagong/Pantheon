@@ -1,9 +1,9 @@
-// 페이지 공통 로직 처리
 import "antd/dist/antd.css";
 import Head from "next/head";
 import PropTypes from "prop-types";
 import wrapper from "../store/configureStore";
 
+// 페이지 공통 로직 처리
 const App = ({ Component }) => {
   return (
     <>

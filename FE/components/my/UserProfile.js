@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useMemo, useCallback } from "react";
 import { Card, Avatar, Button } from "antd";
-import { signOutRequestAction } from "../reducers/user";
+import { signOutRequestAction } from "../../reducers/user";
 
 const NAMES = {
   POSTS: "posts",
@@ -17,7 +17,8 @@ const LABELS = {
 
 const UserProfile = () => {
   const dispatch = useDispatch();
-  const { me, signOutLoading } = useSelector((state) => state.user);
+  const me = useSelector((state) => state.user.me);
+  const signOutLoading = useSelector((state) => state.user.signOutLoading);
 
   const data = useMemo(
     () => ({
