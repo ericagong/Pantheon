@@ -1,5 +1,3 @@
-const { sequelize } = require(".");
-
 module.exports = (sequelize, DataTypes) => {
   const Hashtag = sequelize.define(
     "Hashtag", // MySQL에는 모델명이 소문자, 복수로 변경됨 'hashtags'
@@ -16,6 +14,8 @@ module.exports = (sequelize, DataTypes) => {
       collate: "utf8mb4_general_ci",
     }
   );
-  Hashtag.associate = (db) => {};
+  Hashtag.associate = (db) => {
+    db.Hashtag.belongsToMany(db.Post, { through: "PostHashtag" });
+  };
   return Hashtag;
 };
