@@ -1,10 +1,11 @@
 const express = require("express");
-const { User } = require("../models"); // db 내 User 구조분해할당
+const { User, Post } = require("../models"); // db 내 User 구조분해할당
 const bcrypt = require("bcrypt");
 const router = express.Router();
+const passport = require("passport");
 
-// POST /user/
-router.post("/", async (req, res, next) => {
+// POST /user/signUp
+router.post("/signUp", async (req, res, next) => {
   try {
     const exUser = await User.findOne({
       where: {
@@ -35,6 +36,53 @@ router.post("/", async (req, res, next) => {
     console.error(err);
     next(err);
   }
+});
+
+// POST /user/signIn
+// TODO Express에서 미들웨어 확장 연결하는 법
+router.post("/signIn", async (req, res, next) => {
+  passport.authenticate("local", (serverErr, user, clientErr) => {
+    if (serverErr) {
+      console.error(serverErr);
+      return next(serverErr);
+    }
+    if (clientErr) {
+      return res.status(401).send(clientErr.reason);
+    }
+    // passport에서 로그인 수행
+    return req.login(user, async (passportErr) => {
+      if (passportErr) {
+        console.error(passportErr);
+        return next(passportErr);
+      }
+      // 최종 로그인 성공 시 사용자 정보 전달
+      // passport 에서는 user id에 문자열 정보 매칭해 session에 저장
+      // res.setHeader('Cookie', 'blabla')
+
+      const fullUserWithoutPassword = await User.findOne({
+        where: {
+          id: user.id,
+        },
+        attributes: {
+          exclude: ["password"],
+        },
+        include: [
+          {
+            model: Post,
+          },
+        ],
+      });
+
+      return res.status(200).json(fullUserWithoutPassword);
+    });
+  })(req, res, next);
+});
+
+// POST /user/signOut
+router.post("/signOut", async (req, res, next) => {
+  req.logout();
+  req.session.destroy();
+  res.status(200).send("성공적으로 로그아웃 되었습니다.");
 });
 
 module.exports = router;

@@ -30,7 +30,7 @@ Object.keys(db).forEach((modelName) => {
   }
 });
 
-// db에 sequelize 연결
+// db에 sequelize 연결c
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
