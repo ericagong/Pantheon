@@ -3,9 +3,10 @@ const { User, Post } = require("../models"); // db 내 User 구조분해할당
 const bcrypt = require("bcrypt");
 const router = express.Router();
 const passport = require("passport");
+const { isSignedIn, isNotSignedIn } = require("./middlewares");
 
 // POST /user/signUp
-router.post("/signUp", async (req, res, next) => {
+router.post("/signUp", isNotSignedIn, async (req, res, next) => {
   try {
     const exUser = await User.findOne({
       where: {
@@ -40,7 +41,7 @@ router.post("/signUp", async (req, res, next) => {
 
 // POST /user/signIn
 // TODO Express에서 미들웨어 확장 연결하는 법
-router.post("/signIn", async (req, res, next) => {
+router.post("/signIn", isNotSignedIn, async (req, res, next) => {
   passport.authenticate("local", (serverErr, user, clientErr) => {
     if (serverErr) {
       console.error(serverErr);
@@ -79,10 +80,14 @@ router.post("/signIn", async (req, res, next) => {
 });
 
 // POST /user/signOut
-router.post("/signOut", async (req, res, next) => {
-  req.logout();
-  req.session.destroy();
-  res.status(200).send("성공적으로 로그아웃 되었습니다.");
+router.post("/signOut", isSignedIn, async (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    req.session.destroy();
+    return res.status(200).send("성공적으로 로그아웃 되었습니다.");
+  });
 });
 
 module.exports = router;

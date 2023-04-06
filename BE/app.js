@@ -46,6 +46,9 @@ app.use(passport.session());
 app.use("/user", userRouter);
 app.use("/post", postRouter);
 
+// 에러처리 미들웨어 (별도의 에러 페이지 등...)
+app.use((err, req, res, next) => {});
+
 // 서버에 포트 및 콜백 함수 등록
 app.listen(3065, () => {
   console.log("서버 실행중! http://localhost:3065");
